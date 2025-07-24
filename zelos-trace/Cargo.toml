@@ -1,0 +1,25 @@
+[package]
+name = "zelos-trace"
+version = "0.1.0"
+edition = "2024"
+description = "Core tracing functionality for Zelos"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/your-username/zelos"
+keywords = ["tracing", "observability", "metrics"]
+categories = ["development-tools", "asynchronous"]
+
+[dependencies]
+anyhow = { workspace = true }
+arc-swap = { workspace = true }
+async-trait = { workspace = true }
+chrono = { workspace = true }
+flume = { workspace = true }
+metrics = { workspace = true }
+parking_lot = { workspace = true }
+rpds = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+tokio-util = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true, features = ["serde", "v7"] }
+zelos-trace-types = { workspace = true }

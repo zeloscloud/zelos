@@ -1,0 +1,21 @@
+[package]
+name = "zelos-proto"
+version = "0.1.0"
+edition = "2024"
+description = "Protocol buffer definitions for Zelos tracing system"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/your-username/zelos"
+keywords = ["protobuf", "grpc", "tracing"]
+categories = ["development-tools"]
+
+[dependencies]
+prost = { workspace = true }
+thiserror = { workspace = true }
+tonic = { workspace = true }
+uuid = { workspace = true }
+zelos-trace-types = { workspace = true }
+
+[build-dependencies]
+prost-build = { workspace = true }
+protoc-bin-vendored = { workspace = true }
+tonic-build = { workspace = true }

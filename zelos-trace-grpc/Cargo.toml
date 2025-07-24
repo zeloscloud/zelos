@@ -1,0 +1,44 @@
+[package]
+name = "zelos-trace-grpc"
+version = "0.1.0"
+edition = "2024"
+description = "gRPC client and server for Zelos tracing system"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/your-username/zelos"
+keywords = ["grpc", "tracing", "client", "server"]
+categories = ["development-tools", "asynchronous"]
+
+[[bin]]
+name = "zelos-trace-sub"
+required-features = ["cli"]
+
+[[bin]]
+name = "zelos-trace-pub-perf"
+required-features = ["cli"]
+
+[[bench]]
+name = "grpc_publish_benchmark"
+harness = false
+
+[dependencies]
+anyhow = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true, optional = true, features = ["derive"] }
+flume = { workspace = true, optional = true }
+tokio = { workspace = true, features = ["rt-multi-thread", "signal"] }
+tokio-stream = { workspace = true }
+tokio-util = { workspace = true }
+tonic = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+uuid = { workspace = true, features = ["serde", "v7"] }
+zelos-proto = { workspace = true }
+zelos-trace = { workspace = true }
+zelos-trace-types = { workspace = true }
+
+[features]
+cli = ["dep:clap", "dep:flume"]
+default = ["cli"]
+
+[dev-dependencies]
+divan = { workspace = true }

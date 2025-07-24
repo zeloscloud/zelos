@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package zeloscloud.trace;
+
+enum DataType {
+  DATA_TYPE_UNSPECIFIED = 0;
+  DATA_TYPE_INT8 = 1;
+  DATA_TYPE_INT16 = 2;
+  DATA_TYPE_INT32 = 3;
+  DATA_TYPE_INT64 = 4;
+  DATA_TYPE_UINT8 = 5;
+  DATA_TYPE_UINT16 = 6;
+  DATA_TYPE_UINT32 = 7;
+  DATA_TYPE_UINT64 = 8;
+  DATA_TYPE_FLOAT32 = 9;
+  DATA_TYPE_FLOAT64 = 10;
+  DATA_TYPE_TIMESTAMP_NS = 11;
+  DATA_TYPE_BINARY = 12;
+  DATA_TYPE_STRING = 13;
+  DATA_TYPE_BOOL = 14;
+}
+
+message Value {
+  oneof value {
+    // All int / uint types are varint encoded in protobuf. Even though we represent these the same,
+    // we use the tag to discriminate the underlying data type of the field.
+    int64 int8 = 1;
+    int64 int16 = 2;
+    int64 int32 = 3;
+    int64 int64 = 4;
+    uint64 uint8 = 5;
+    uint64 uint16 = 6;
+    uint64 uint32 = 7;
+    uint64 uint64 = 8;
+    float float32 = 9;
+    double float64 = 10;
+    // The current timestamp in nanoseconds is greater than 2^56, so it's more efficient to store
+    // this as a sfixed64 than a varint int64
+    sfixed64 timestamp_ns = 11;
+    bytes binary = 12;
+    string string = 13;
+    bool bool = 14;
+  }
+}
+
+message TraceEventFieldMetadata {
+  string name = 1;
+  DataType data_type = 2;
+  optional string unit = 3;
+}
+
+message TraceSegmentStart {
+  sfixed64 time_ns = 1;
+  string source_name = 2;
+}
+
+message TraceSegmentEnd {
+  sfixed64 time_ns = 1;
+}
+
+message TraceEventSchema {
+  string name = 1;
+  repeated TraceEventFieldMetadata fields = 2;
+}
+
+message TraceEventFieldNamedValuesEntry {
+  string name = 1;
+  Value value = 2;
+}
+
+message TraceEventFieldNamedValues {
+  string event_name = 1;
+  string field_name = 2;
+  repeated TraceEventFieldNamedValuesEntry values = 3;
+}
+
+message TraceEventFieldEntry {
+  string name = 1;
+  Value value = 2;
+}
+
+message TraceEvent {
+  sfixed64 time_ns = 1;
+  string name = 2;
+  repeated TraceEventFieldEntry fields = 3;
+}
+
+message TraceMessage {
+  // The UUIDv7 of the segment
+  bytes segment_id = 1;
+
+  // The name of the source that generated the segment
+  string source_name = 7;
+
+  oneof msg {
+    TraceSegmentStart segment_start = 2;
+    TraceSegmentEnd segment_end = 3;
+    TraceEventSchema event_schema = 4;
+    TraceEventFieldNamedValues event_field_named_values = 5;
+    TraceEvent event = 6;
+  }
+}
+
+message TraceMessageBatch {
+  repeated TraceMessage messages = 1;
+}

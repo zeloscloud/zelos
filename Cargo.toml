@@ -1,0 +1,54 @@
+[workspace]
+resolver = "2"
+members = [
+    "zelos",
+    "zelos-proto",
+    "zelos-trace",
+    "zelos-trace-grpc",
+    "zelos-trace-types",
+]
+
+[workspace.dependencies]
+# Internal crates
+zelos-trace-types = { path = "zelos-trace-types" }
+zelos-proto = { path = "zelos-proto" }
+zelos-trace = { path = "zelos-trace" }
+zelos-trace-grpc = { path = "zelos-trace-grpc" }
+zelos = { path = "zelos" }
+
+# Third Party Dependencies
+anyhow = "1.0.86"
+arc-swap = "1.7.1"
+async-trait = "0.1.88"
+base64 = "0.22.1"
+chrono = { version = "0.4.41", default-features = false }
+clap = "4.5.14"
+derive_more = "2.0.1"
+divan = "0.1"
+duckdb = "1.2.2"
+flume = "0.11.1"
+lazy-regex = "3.1.0"
+metrics = "0.24.1"
+parking_lot = "0.12.3"
+prost = "0.13.0"
+prost-build = "0.13.0"
+protoc-bin-vendored = "3.1.0"
+rpds = "1.1.1"
+serde = "1.0.202"
+serde-enum-str = "0.3"
+serde_json = "1.0.117"
+thiserror = "2.0.12"
+tokio = "1.39.1"
+tokio-stream = "0.1.15"
+tokio-util = "0.7.12"
+tonic = "0.12.3"
+tonic-build = "0.12.3"
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+ts-rs = { version = "9.0.1", features = ["no-serde-warnings"] }
+uuid = "1.8.0"
+
+# Optional dependencies (defined directly in crates that need them)
+datafusion = "47.0.0"
+
+

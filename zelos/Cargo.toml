@@ -1,0 +1,14 @@
+[package]
+name = "zelos"
+version = "0.1.0"
+edition = "2024"
+description = "A distributed tracing system"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/your-username/zelos"
+keywords = ["tracing", "distributed", "observability"]
+categories = ["development-tools", "asynchronous"]
+
+[dependencies]
+zelos-proto = { path = "../zelos-proto" }
+zelos-trace = { path = "../zelos-trace" }
+zelos-trace-grpc = { path = "../zelos-trace-grpc" }
