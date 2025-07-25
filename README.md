@@ -8,6 +8,25 @@ A distributed tracing system built in Rust.
 - `zelos-proto` - Protocol buffer definitions and gRPC types
 - `zelos-trace` - Core tracing functionality
 - `zelos-trace-grpc` - gRPC client and server implementations
+- `zelos-trace-types` - Shared types and data structures
+
+## Development
+
+To work on a specific crate:
+
+```bash
+# Build all crates
+cargo build
+
+# Build a specific crate
+cargo build -p zelos-trace
+
+# Run tests for a specific crate
+cargo test -p zelos-trace
+
+# Run the publisher example
+cargo run -p zelos-trace-grpc --bin zelos-trace-pub
+```
 
 ## License
 

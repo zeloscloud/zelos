@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use std::time::Duration;
 
 use clap::Parser;
@@ -6,7 +5,6 @@ use tokio_util::sync::CancellationToken;
 use zelos_trace::TraceRouter;
 use zelos_trace::TraceSource;
 use zelos_trace_grpc::publish::{TracePublishClient, TracePublishClientConfig};
-use zelos_trace_types::{DataType, ipc::TraceEventFieldMetadata, Value};
 
 #[derive(Parser, Debug, Clone)]
 struct Args {

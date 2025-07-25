@@ -1,20 +1,20 @@
 [workspace]
 resolver = "2"
 members = [
-    "zelos",
-    "zelos-proto",
-    "zelos-trace",
-    "zelos-trace-grpc",
-    "zelos-trace-types",
+    "crates/zelos",
+    "crates/zelos-proto",
+    "crates/zelos-trace",
+    "crates/zelos-trace-grpc",
+    "crates/zelos-trace-types",
 ]
 
 [workspace.dependencies]
 # Internal crates
-zelos-trace-types = { path = "zelos-trace-types" }
-zelos-proto = { path = "zelos-proto" }
-zelos-trace = { path = "zelos-trace" }
-zelos-trace-grpc = { path = "zelos-trace-grpc" }
-zelos = { path = "zelos" }
+zelos-trace-types = { path = "crates/zelos-trace-types" }
+zelos-proto = { path = "crates/zelos-proto" }
+zelos-trace = { path = "crates/zelos-trace" }
+zelos-trace-grpc = { path = "crates/zelos-trace-grpc" }
+zelos = { path = "crates/zelos" }
 
 # Third Party Dependencies
 anyhow = "1.0.86"
