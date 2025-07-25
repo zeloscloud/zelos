@@ -110,14 +110,7 @@ impl From<ipc::TraceSegmentStart> for super::TraceSegmentStart {
         }
     }
 }
-impl Into<ipc::TraceSegmentStart> for super::TraceSegmentStart {
-    fn into(self) -> ipc::TraceSegmentStart {
-        ipc::TraceSegmentStart {
-            time_ns: self.time_ns,
-            source_name: self.source_name,
-        }
-    }
-}
+
 
 // ===== TraceSegmentEnd =====
 impl From<ipc::TraceSegmentEnd> for super::TraceSegmentEnd {
@@ -127,13 +120,7 @@ impl From<ipc::TraceSegmentEnd> for super::TraceSegmentEnd {
         }
     }
 }
-impl Into<ipc::TraceSegmentEnd> for super::TraceSegmentEnd {
-    fn into(self) -> ipc::TraceSegmentEnd {
-        ipc::TraceSegmentEnd {
-            time_ns: self.time_ns,
-        }
-    }
-}
+
 
 // ===== TraceEventFieldMetadata =====
 impl From<ipc::TraceEventFieldMetadata> for super::TraceEventFieldMetadata {
@@ -338,5 +325,22 @@ impl TryInto<ipc::IpcMessageWithId> for super::TraceMessage {
             source_name,
             msg,
         })
+    }
+}
+
+impl From<super::TraceSegmentStart> for ipc::TraceSegmentStart {
+    fn from(val: super::TraceSegmentStart) -> Self {
+        ipc::TraceSegmentStart {
+            time_ns: val.time_ns,
+            source_name: val.source_name,
+        }
+    }
+}
+
+impl From<super::TraceSegmentEnd> for ipc::TraceSegmentEnd {
+    fn from(val: super::TraceSegmentEnd) -> Self {
+        ipc::TraceSegmentEnd {
+            time_ns: val.time_ns,
+        }
     }
 }

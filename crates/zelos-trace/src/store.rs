@@ -33,3 +33,9 @@ impl Store for MetadataOnlyStore {
         Ok(())
     }
 }
+
+impl Default for MetadataOnlyStore {
+    fn default() -> Self {
+        Self::new()
+    }
+}

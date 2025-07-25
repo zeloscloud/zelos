@@ -182,7 +182,7 @@ impl TracePublishClient {
 
     /// Gets the last value the connection status receiver has seen
     pub async fn last_connection_status(&self) -> ConnectionStatus {
-        self.connection_status.borrow().clone()
+        *self.connection_status.borrow()
     }
 
     /// Wait until connected or the timeout expires

@@ -1,5 +1,6 @@
 use anyhow::{Result, anyhow};
 use base64::prelude::*;
+use std::fmt;
 
 use crate::DataType;
 
@@ -112,23 +113,23 @@ impl std::hash::Hash for Value {
     }
 }
 
-impl ToString for Value {
-    fn to_string(&self) -> String {
+impl fmt::Display for Value {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Value::Int8(v) => v.to_string(),
-            Value::Int16(v) => v.to_string(),
-            Value::Int32(v) => v.to_string(),
-            Value::Int64(v) => v.to_string(),
-            Value::UInt8(v) => v.to_string(),
-            Value::UInt16(v) => v.to_string(),
-            Value::UInt32(v) => v.to_string(),
-            Value::UInt64(v) => v.to_string(),
-            Value::Float32(v) => v.to_string(),
-            Value::Float64(v) => v.to_string(),
-            Value::TimestampNs(v) => v.to_string(),
-            Value::Binary(items) => BASE64_STANDARD.encode(items),
-            Value::String(v) => v.clone(),
-            Value::Boolean(v) => v.to_string(),
+            Value::Int8(v) => write!(f, "{}", v),
+            Value::Int16(v) => write!(f, "{}", v),
+            Value::Int32(v) => write!(f, "{}", v),
+            Value::Int64(v) => write!(f, "{}", v),
+            Value::UInt8(v) => write!(f, "{}", v),
+            Value::UInt16(v) => write!(f, "{}", v),
+            Value::UInt32(v) => write!(f, "{}", v),
+            Value::UInt64(v) => write!(f, "{}", v),
+            Value::Float32(v) => write!(f, "{}", v),
+            Value::Float64(v) => write!(f, "{}", v),
+            Value::TimestampNs(v) => write!(f, "{}", v),
+            Value::Binary(items) => write!(f, "{}", BASE64_STANDARD.encode(items)),
+            Value::String(v) => write!(f, "{}", v),
+            Value::Boolean(v) => write!(f, "{}", v),
         }
     }
 }
@@ -267,32 +268,14 @@ impl Value {
 
     pub fn from_number_as_type(value: &serde_json::Number, data_type: &DataType) -> Option<Value> {
         match data_type {
-            DataType::Int8 => value
-                .as_i64()
-                .and_then(|v| v.try_into().ok())
-                .map(|v| Value::Int8(v)),
-            DataType::Int16 => value
-                .as_i64()
-                .and_then(|v| v.try_into().ok())
-                .map(|v| Value::Int16(v)),
-            DataType::Int32 => value
-                .as_i64()
-                .and_then(|v| v.try_into().ok())
-                .map(|v| Value::Int32(v)),
-            DataType::Int64 => value.as_i64().map(|v| Value::Int64(v)),
-            DataType::UInt8 => value
-                .as_u64()
-                .and_then(|v| v.try_into().ok())
-                .map(|v| Value::UInt8(v)),
-            DataType::UInt16 => value
-                .as_u64()
-                .and_then(|v| v.try_into().ok())
-                .map(|v| Value::UInt16(v)),
-            DataType::UInt32 => value
-                .as_u64()
-                .and_then(|v| v.try_into().ok())
-                .map(|v| Value::UInt32(v)),
-            DataType::UInt64 => value.as_u64().map(|v| Value::UInt64(v)),
+            DataType::Int8 => value.as_i64().and_then(|v| v.try_into().ok()).map(Value::Int8),
+            DataType::Int16 => value.as_i64().and_then(|v| v.try_into().ok()).map(Value::Int16),
+            DataType::Int32 => value.as_i64().and_then(|v| v.try_into().ok()).map(Value::Int32),
+            DataType::Int64 => value.as_i64().map(Value::Int64),
+            DataType::UInt8 => value.as_u64().and_then(|v| v.try_into().ok()).map(Value::UInt8),
+            DataType::UInt16 => value.as_u64().and_then(|v| v.try_into().ok()).map(Value::UInt16),
+            DataType::UInt32 => value.as_u64().and_then(|v| v.try_into().ok()).map(Value::UInt32),
+            DataType::UInt64 => value.as_u64().map(Value::UInt64),
             _ => None,
         }
     }

@@ -21,7 +21,7 @@ pub struct TraceEventFieldRef<'a> {
     pub field: &'a TraceEventField,
 }
 
-impl<'a> TraceEventFieldRef<'a> {
+impl TraceEventFieldRef<'_> {
     pub fn as_signal(&self) -> Signal {
         let &TraceEventFieldRef {
             segment,
@@ -43,8 +43,7 @@ impl<'a> TraceEventFieldRef<'a> {
                     field
                         .values
                         .iter()
-                        .map(|(k, v)| k.as_number().map(|n| (n, v.clone())))
-                        .flatten()
+                        .filter_map(|(k, v)| k.as_number().map(|n| (n, v.clone())))
                         .collect(),
                 )
             },
@@ -52,7 +51,7 @@ impl<'a> TraceEventFieldRef<'a> {
     }
 }
 
-impl<'a> TraceEventFieldRef<'a> {
+impl TraceEventFieldRef<'_> {
     pub fn table_key(&self) -> String {
         format!(
             "{}/{}/{}",
@@ -89,7 +88,7 @@ impl TraceEventSchema {
             fields: msg
                 .fields
                 .into_iter()
-                .map(|msg| TraceEventField::from_ipc(msg))
+                .map(TraceEventField::from_ipc)
                 .collect(),
         }
     }
@@ -106,7 +105,7 @@ impl TraceEventSchema {
             .find(|field| field.metadata.name == field_name)
     }
 
-    pub fn metadata<'a>(&'a self) -> impl Iterator<Item = &'a TraceEventFieldMetadata> {
+    pub fn metadata(&self) -> impl Iterator<Item = &TraceEventFieldMetadata> {
         self.fields.iter().map(|field| &field.metadata)
     }
 }
@@ -197,7 +196,7 @@ impl TraceSegment {
             })
     }
 
-    pub fn field_refs<'a>(&'a self) -> impl Iterator<Item = TraceEventFieldRef<'a>> {
+    pub fn field_refs(&self) -> impl Iterator<Item = TraceEventFieldRef<'_>> {
         self.schemas.values().flat_map(|event_schema| {
             event_schema.fields.iter().map(|field| TraceEventFieldRef {
                 segment: self,

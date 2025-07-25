@@ -88,7 +88,7 @@ impl TraceMetadata {
                 seg.as_ipc()
                     .into_iter()
                     .map(move |msg| ipc::IpcMessageWithId {
-                        segment_id: id.clone(),
+                        segment_id: *id,
                         source_name: seg.source.clone(),
                         msg,
                     })
@@ -102,7 +102,7 @@ impl TraceMetadata {
         let segments = self.segments.load();
         segments
             .iter()
-            .map(|(id, seg)| (id.clone(), seg.clone()))
+            .map(|(id, seg)| (*id, seg.clone()))
             .collect()
     }
 
@@ -124,6 +124,12 @@ impl TraceMetadata {
         let segments = self.segments.load();
         let new = segments.remove(id);
         self.segments.store(Arc::new(new));
+    }
+}
+
+impl Default for TraceMetadata {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

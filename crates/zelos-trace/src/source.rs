@@ -28,7 +28,7 @@ impl TraceSourceEvent {
         let evt = TraceEvent {
             time_ns,
             name: self.name.clone(),
-            fields: fields.map(|f| f.into()).collect(),
+            fields: fields.collect(),
         };
 
         self.sender.send(IpcMessageWithId {
@@ -48,7 +48,7 @@ impl TraceSourceEvent {
         let evt = TraceEvent {
             time_ns,
             name: self.name.clone(),
-            fields: fields.map(|f| f.into()).collect(),
+            fields: fields.collect(),
         };
 
         self.sender
@@ -62,7 +62,7 @@ impl TraceSourceEvent {
         Ok(())
     }
 
-    pub fn build<'a>(&'a self) -> builder::EventBuilder<'a> {
+    pub fn build(&self) -> builder::EventBuilder<'_> {
         builder::EventBuilder::new(self)
     }
 }
@@ -156,7 +156,7 @@ impl TraceSource {
         }
 
         let msg = Arc::new(TraceSourceEvent {
-            id: self.id.clone(),
+            id: self.id,
             source_name: self.source_name.clone(),
             sender: self.sender.clone(),
             name: name.to_string(),
@@ -185,7 +185,7 @@ impl TraceSource {
         }
 
         let msg = Arc::new(TraceSourceEvent {
-            id: self.id.clone(),
+            id: self.id,
             source_name: self.source_name.clone(),
             sender: self.sender.clone(),
             name: name.to_string(),
@@ -396,7 +396,7 @@ pub mod builder {
                 name.to_string(),
                 TraceEventFieldMetadata {
                     name: name.to_string(),
-                    data_type: data_type.into(),
+                    data_type,
                     unit,
                 },
             );
