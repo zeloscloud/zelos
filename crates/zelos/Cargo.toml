@@ -5,10 +5,20 @@ edition = "2024"
 description = "A distributed tracing system"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/your-username/zelos"
-keywords = ["tracing", "distributed", "observability"]
+keywords = ["tracing", "distributed", "observability", "time-series", "visualization", "hardware-testing"]
 categories = ["development-tools", "asynchronous"]
 
 [dependencies]
 zelos-proto = { path = "../zelos-proto" }
 zelos-trace = { path = "../zelos-trace" }
 zelos-trace-grpc = { path = "../zelos-trace-grpc" }
+
+# Dependencies for examples
+tokio = { workspace = true, features = ["rt", "macros"] }
+tokio-util = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+[[example]]
+name = "hello-world"
+path = "../../examples/hello-world.rs"

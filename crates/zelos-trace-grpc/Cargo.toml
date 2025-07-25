@@ -5,7 +5,7 @@ edition = "2024"
 description = "gRPC client and server for Zelos tracing system"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/your-username/zelos"
-keywords = ["grpc", "tracing", "client", "server"]
+keywords = ["grpc", "tracing", "client", "server", "time-series", "visualization", "hardware-testing"]
 categories = ["development-tools", "asynchronous"]
 
 [[bin]]
