@@ -13,7 +13,7 @@ name = "zelos-trace-sub"
 required-features = ["cli"]
 
 [[bin]]
-name = "zelos-trace-pub-perf"
+name = "zelos-trace-pub"
 required-features = ["cli"]
 
 [[bench]]
