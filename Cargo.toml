@@ -10,11 +10,11 @@ members = [
 
 [workspace.dependencies]
 # Internal crates
-zelos-trace-types = { path = "crates/zelos-trace-types" }
-zelos-proto = { path = "crates/zelos-proto" }
-zelos-trace = { path = "crates/zelos-trace" }
-zelos-trace-grpc = { path = "crates/zelos-trace-grpc" }
-zelos = { path = "crates/zelos" }
+zelos-trace-types = { version = "0.0.1", path = "crates/zelos-trace-types" }
+zelos-proto = { version = "0.0.1", path = "crates/zelos-proto" }
+zelos-trace = { version = "0.0.1", path = "crates/zelos-trace" }
+zelos-trace-grpc = { version = "0.0.1", path = "crates/zelos-trace-grpc" }
+zelos = { version = "0.0.1", path = "crates/zelos" }
 
 # Third Party Dependencies
 anyhow = "1.0.86"
@@ -38,7 +38,7 @@ serde = "1.0.202"
 serde-enum-str = "0.3"
 serde_json = "1.0.117"
 thiserror = "2.0.12"
-tokio = "1.39.1"
+tokio = { version = "1.39.1", features = ["rt-multi-thread", "signal", "macros"] }
 tokio-stream = "0.1.15"
 tokio-util = "0.7.12"
 tonic = "0.12.3"

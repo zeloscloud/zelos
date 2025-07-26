@@ -25,7 +25,7 @@ anyhow = { workspace = true }
 chrono = { workspace = true }
 clap = { workspace = true, optional = true, features = ["derive"] }
 flume = { workspace = true, optional = true }
-tokio = { workspace = true, features = ["rt-multi-thread", "signal"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "signal", "macros"] }
 tokio-stream = { workspace = true }
 tokio-util = { workspace = true }
 tonic = { workspace = true }
