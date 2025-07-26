@@ -8,5 +8,5 @@ pub use zelos_trace as trace;
 pub use zelos_trace_grpc as trace_grpc;
 
 // Re-export commonly used types
-pub use zelos_trace::{TraceRouter, TraceSink, TraceSource, Store};
+pub use zelos_trace::{Store, TraceRouter, TraceSink, TraceSource};
 pub use zelos_trace_grpc::{publish, subscribe};

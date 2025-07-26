@@ -111,7 +111,6 @@ impl From<ipc::TraceSegmentStart> for super::TraceSegmentStart {
     }
 }
 
-
 // ===== TraceSegmentEnd =====
 impl From<ipc::TraceSegmentEnd> for super::TraceSegmentEnd {
     fn from(value: ipc::TraceSegmentEnd) -> Self {
@@ -120,7 +119,6 @@ impl From<ipc::TraceSegmentEnd> for super::TraceSegmentEnd {
         }
     }
 }
-
 
 // ===== TraceEventFieldMetadata =====
 impl From<ipc::TraceEventFieldMetadata> for super::TraceEventFieldMetadata {

@@ -268,13 +268,31 @@ impl Value {
 
     pub fn from_number_as_type(value: &serde_json::Number, data_type: &DataType) -> Option<Value> {
         match data_type {
-            DataType::Int8 => value.as_i64().and_then(|v| v.try_into().ok()).map(Value::Int8),
-            DataType::Int16 => value.as_i64().and_then(|v| v.try_into().ok()).map(Value::Int16),
-            DataType::Int32 => value.as_i64().and_then(|v| v.try_into().ok()).map(Value::Int32),
+            DataType::Int8 => value
+                .as_i64()
+                .and_then(|v| v.try_into().ok())
+                .map(Value::Int8),
+            DataType::Int16 => value
+                .as_i64()
+                .and_then(|v| v.try_into().ok())
+                .map(Value::Int16),
+            DataType::Int32 => value
+                .as_i64()
+                .and_then(|v| v.try_into().ok())
+                .map(Value::Int32),
             DataType::Int64 => value.as_i64().map(Value::Int64),
-            DataType::UInt8 => value.as_u64().and_then(|v| v.try_into().ok()).map(Value::UInt8),
-            DataType::UInt16 => value.as_u64().and_then(|v| v.try_into().ok()).map(Value::UInt16),
-            DataType::UInt32 => value.as_u64().and_then(|v| v.try_into().ok()).map(Value::UInt32),
+            DataType::UInt8 => value
+                .as_u64()
+                .and_then(|v| v.try_into().ok())
+                .map(Value::UInt8),
+            DataType::UInt16 => value
+                .as_u64()
+                .and_then(|v| v.try_into().ok())
+                .map(Value::UInt16),
+            DataType::UInt32 => value
+                .as_u64()
+                .and_then(|v| v.try_into().ok())
+                .map(Value::UInt32),
             DataType::UInt64 => value.as_u64().map(Value::UInt64),
             _ => None,
         }

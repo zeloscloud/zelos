@@ -48,7 +48,9 @@ async fn main() {
 
     let shutdown_token = cancellation_token.clone();
     let shutdown = tokio::spawn(async move {
-        tokio::signal::ctrl_c().await.expect("failed to listen for ctrl_c");
+        tokio::signal::ctrl_c()
+            .await
+            .expect("failed to listen for ctrl_c");
         println!("\nReceived Ctrl+C, shutting down...");
         shutdown_token.cancel();
     });

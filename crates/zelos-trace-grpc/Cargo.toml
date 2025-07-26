@@ -1,6 +1,6 @@
 [package]
 name = "zelos-trace-grpc"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2024"
 description = "gRPC client and server for Zelos tracing system"
 license = "MIT OR Apache-2.0"

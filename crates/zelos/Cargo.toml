@@ -1,6 +1,6 @@
 [package]
 name = "zelos"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2024"
 description = "A distributed tracing system"
 license = "MIT OR Apache-2.0"
@@ -9,9 +9,9 @@ keywords = ["tracing", "distributed", "observability", "time-series", "visualiza
 categories = ["development-tools", "asynchronous"]
 
 [dependencies]
-zelos-proto = { path = "../zelos-proto" }
-zelos-trace = { path = "../zelos-trace" }
-zelos-trace-grpc = { path = "../zelos-trace-grpc" }
+zelos-proto = { workspace = true }
+zelos-trace = { workspace = true }
+zelos-trace-grpc = { workspace = true }
 
 # Dependencies for examples
 tokio = { workspace = true, features = ["rt", "macros"] }
