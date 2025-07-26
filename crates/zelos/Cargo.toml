@@ -5,7 +5,7 @@ edition = "2024"
 description = "A distributed tracing system"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/zeloscloud/zelos"
-keywords = ["tracing", "distributed", "observability", "time-series", "visualization", "hardware-testing"]
+keywords = ["tracing", "distributed", "observability", "time-series", "visualization"]
 categories = ["development-tools", "asynchronous"]
 
 [dependencies]

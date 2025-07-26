@@ -5,7 +5,7 @@ edition = "2024"
 description = "Protocol buffer definitions for Zelos tracing system"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/zeloscloud/zelos"
-keywords = ["protobuf", "grpc", "tracing", "time-series", "visualization", "hardware-testing"]
+keywords = ["protobuf", "grpc", "tracing", "time-series", "visualization"]
 categories = ["development-tools"]
 
 [dependencies]
