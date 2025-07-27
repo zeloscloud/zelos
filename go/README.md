@@ -5,7 +5,7 @@ A Go SDK for the Zelos distributed tracing system.
 ## Installation
 
 ```bash
-go get github.com/zeloscloud/zelos
+go get github.com/zeloscloud/zelos/go
 ```
 
 ## Quick Start
@@ -17,7 +17,7 @@ import (
     "context"
     "log"
     "time"
-    "github.com/zeloscloud/zelos"
+    "github.com/zeloscloud/zelos/go"
 )
 
 func main() {

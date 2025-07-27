@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/zeloscloud/zelos"
+	"github.com/zeloscloud/zelos/go"
 )
 
 func main() {

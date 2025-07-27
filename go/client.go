@@ -1,3 +1,22 @@
+// Package zelos provides a Go SDK for the Zelos distributed tracing system.
+//
+// The zelos package enables Go applications to publish trace events and segments
+// to a Zelos agent for distributed tracing and observability.
+//
+// Example usage:
+//
+//	router, sender, receiver := zelos.NewTraceRouter(ctx)
+//	config := zelos.DefaultTracePublishClientConfig()
+//	client := zelos.NewTracePublishClient(ctx, receiver, config)
+//
+//	source, err := zelos.NewTraceSource("my-app", sender)
+//	event, err := source.BuildEvent("user_action").
+//		AddStringField("user_id", nil).
+//		Build()
+//
+//	err = event.Build().
+//		TryInsertString("user_id", "user123").
+//		Emit()
 package zelos
 
 import (
@@ -8,7 +27,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "github.com/zeloscloud/zelos/zeloscloud/trace"
+	pb "github.com/zeloscloud/zelos/go/zeloscloud/trace"
 )
 
 // ConnectionStatus represents the connection status
