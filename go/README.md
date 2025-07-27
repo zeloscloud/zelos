@@ -5,8 +5,17 @@ A Go SDK for the Zelos distributed tracing system.
 ## Installation
 
 ```bash
-go get github.com/zeloscloud/zelos/go
+# For latest version
+go get github.com/zeloscloud/zelos/go@latest
+
+# For specific version (use pseudo-version with commit hash)
+go get github.com/zeloscloud/zelos/go@v0.0.0-20250727030701-594949c23151
 ```
+
+**Note**: Due to Go module limitations with subdirectory modules, version tags work differently. For production use, we recommend:
+- Using `@latest` for the most recent version
+- Using specific commit hashes for reproducible builds
+- Or pinning the version in your `go.mod` file
 
 ## Quick Start
 
