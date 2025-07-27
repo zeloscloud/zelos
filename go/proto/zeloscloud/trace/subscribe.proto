@@ -4,6 +4,8 @@ import "zeloscloud/trace/trace.proto";
 
 package zeloscloud.trace;
 
+option go_package = "github.com/zeloscloud/zelos/proto/zeloscloud/trace";
+
 service TraceSubscribe {
   rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeResponse);
 }

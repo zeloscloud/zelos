@@ -1,17 +1,6 @@
 # Zelos Go SDK
 
-A Go SDK for the Zelos distributed tracing system, providing a simple and efficient way to instrument your Go applications with distributed tracing capabilities. This SDK closely mirrors the architecture and patterns of the Rust SDK.
-
-## Features
-
-- **Rust-Compatible Architecture**: Closely mirrors the Rust SDK's design patterns and API
-- **UUID-based Segments**: Proper segment lifecycle management with UUIDs
-- **Schema Registration**: Type-safe event schemas with validation
-- **Builder Pattern API**: Fluent API for creating and emitting events
-- **Connection Management**: Automatic reconnection with status tracking
-- **Channel-based IPC**: Efficient message passing between components
-- **Proper Error Handling**: Go-style error handling with detailed error messages
-- **Thread Safe**: All operations are thread-safe for concurrent use
+A Go SDK for the Zelos distributed tracing system.
 
 ## Installation
 
@@ -34,28 +23,32 @@ import (
 func main() {
     ctx := context.Background()
 
-    // Set up the router (similar to Rust's TraceRouter::new)
+    // Set up router and client
     router, sender, receiver := zelos.NewTraceRouter(ctx)
-
-    // Set up the publish client
     config := zelos.DefaultTracePublishClientConfig()
     client := zelos.NewTracePublishClient(ctx, receiver, config)
 
-    // Start the client's processing task
-    go client.Run()
+    // Start client
+    go func() {
+        if err := client.Run(); err != nil && err != context.Canceled {
+            log.Printf("Client error: %v", err)
+        }
+    }()
 
     // Wait for connection
-    client.WaitUntilConnected(5 * time.Second)
+    if err := client.WaitUntilConnected(5 * time.Second); err != nil {
+        log.Fatalf("Failed to connect: %v", err)
+    }
 
-    // Create a trace source (emits segment start automatically)
+    // Create trace source
     source, err := zelos.NewTraceSource("my-app", sender)
     if err != nil {
         log.Fatal(err)
     }
-    defer source.Close() // Emits segment end
+    defer source.Close()
 
-    // Build and register an event schema
-    event, err := source.BuildEvent("user_login").
+    // Register event schema
+    event, err := source.BuildEvent("user_action").
         AddStringField("user_id", nil).
         AddUint64Field("timestamp", stringPtr("ns")).
         Build()
@@ -63,191 +56,106 @@ func main() {
         log.Fatal(err)
     }
 
-    // Emit an event with type validation
-    builder, err := event.Build().TryInsertString("user_id", "user123")
+    // Emit event
+    err = event.Build().
+        TryInsertString("user_id", "user123").
+        TryInsertUint64("timestamp", uint64(zelos.NowTimeNs())).
+        Emit()
     if err != nil {
         log.Fatal(err)
     }
 
-    builder, err = builder.TryInsertUint64("timestamp", uint64(zelos.NowTimeNs()))
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    err = builder.Emit()
-    if err != nil {
-        log.Fatal(err)
-    }
+    log.Println("Event sent successfully!")
 }
 
 func stringPtr(s string) *string { return &s }
 ```
 
-## Core Concepts
+## Basic Usage
 
-### TraceSource
-
-A `TraceSource` represents a trace segment with a unique UUID. It automatically emits segment start/end messages and manages event schemas.
+### 1. Create TraceSource
 
 ```go
-// Creates a new segment with UUID and emits segment start
-source, err := zelos.NewTraceSource("my-service", sender)
-if err != nil {
-    log.Fatal(err)
-}
+source, err := zelos.NewTraceSource("service-name", sender)
 defer source.Close() // Important: emits segment end
 ```
 
-### Event Schema Registration
-
-Events must be registered with a schema before use, providing type safety:
+### 2. Register Event Schema
 
 ```go
-event, err := source.BuildEvent("database_query").
-    AddStringField("query", nil).
-    AddUint64Field("duration_ns", stringPtr("ns")).
-    AddBooleanField("success", nil).
+event, err := source.BuildEvent("event_name").
+    AddStringField("field1", nil).
+    AddUint64Field("field2", stringPtr("ms")).
+    AddBooleanField("field3", nil).
     Build()
-if err != nil {
-    log.Fatal(err)
-}
 ```
 
-### Type-Safe Event Building
-
-Events are built with type validation against the registered schema:
+### 3. Emit Events
 
 ```go
-builder, err := event.Build().TryInsertString("query", "SELECT * FROM users")
-if err != nil {
-    log.Fatal(err) // Type mismatch or unknown field
-}
-
-builder, err = builder.TryInsertUint64("duration_ns", 1500000)
-if err != nil {
-    log.Fatal(err)
-}
-
-err = builder.Emit()
-if err != nil {
-    log.Fatal(err)
-}
+err = event.Build().
+    TryInsertString("field1", "value").
+    TryInsertUint64("field2", 1000).
+    TryInsertBoolean("field3", true).
+    Emit()
 ```
 
-### TraceRouter and Channels
+## Supported Field Types
 
-The router uses Go channels for efficient IPC message passing:
+- `AddStringField(name, unit)`
+- `AddInt8Field(name, unit)` through `AddInt64Field(name, unit)`
+- `AddUint8Field(name, unit)` through `AddUint64Field(name, unit)`
+- `AddFloat32Field(name, unit)` and `AddFloat64Field(name, unit)`
+- `AddBooleanField(name, unit)`
+- `AddBinaryField(name, unit)`
+- `AddTimestampNsField(name, unit)`
+
+## Configuration
+
+### Environment Variables
+
+Set `ZELOS_URL` to specify the agent URL (default: `grpc://127.0.0.1:2300`)
+
+### Custom Configuration
 
 ```go
-router, sender, receiver := zelos.NewTraceRouter(ctx)
-// sender: for TraceSource to send messages
-// receiver: for TracePublishClient to receive messages
-```
-
-### Connection Management
-
-The publish client handles connection status and automatic reconnection:
-
-```go
+config := &zelos.TracePublishClientConfig{
+    URL:            "grpc://my-agent:2300",
+    BatchSize:      1000,
+    BatchTimeout:   100 * time.Millisecond,
+    ReconnectDelay: 1000 * time.Millisecond,
+}
 client := zelos.NewTracePublishClient(ctx, receiver, config)
-
-// Start processing in background
-go func() {
-    if err := client.Run(); err != nil && err != context.Canceled {
-        log.Printf("Client error: %v", err)
-    }
-}()
-
-// Wait for connection
-if err := client.WaitUntilConnected(5 * time.Second); err != nil {
-    log.Fatal(err)
-}
-
-// Check status
-status := client.GetConnectionStatus()
-fmt.Printf("Status: %s\n", status)
 ```
-
-## Architecture Alignment with Rust SDK
-
-| Rust Component | Go Equivalent | Notes |
-|----------------|---------------|-------|
-| `TraceSource::new()` | `NewTraceSource()` | Auto-generates UUID, emits segment start |
-| `build_event().add_*_field()` | `BuildEvent().Add*Field()` | Schema registration with units |
-| `event.build().try_insert_*()` | `event.Build().TryInsert*()` | Type-safe value insertion |
-| `TraceRouter::new()` | `NewTraceRouter()` | Channel-based message routing |
-| `TracePublishClient::new()` | `NewTracePublishClient()` | Connection management with status |
-| Segment lifecycle | `defer source.Close()` | Automatic segment end emission |
-
-## Supported Data Types
-
-All Rust SDK data types are supported with proper Go mappings:
-
-- **Integers**: `int8`, `int16`, `int32`, `int64`
-- **Unsigned Integers**: `uint8`, `uint16`, `uint32`, `uint64`
-- **Floats**: `float32`, `float64`
-- **Other**: `string`, `bool`, `[]byte`, `int64` (timestamp)
-
-## IPC Message Types
-
-The SDK implements all IPC message types from the Rust version:
-
-- `TraceSegmentStart` - Segment lifecycle begin
-- `TraceSegmentEnd` - Segment lifecycle end
-- `TraceEventSchema` - Event schema registration
-- `TraceEvent` - Actual trace event data
-- `TraceEventFieldNamedValues` - Named value mappings
 
 ## Error Handling
 
-The SDK uses Go's standard error handling with detailed error messages:
-
 ```go
-// Schema validation
-if err := builder.TryInsert("field", value); err != nil {
-    // Errors include: field not found, type mismatch
-    log.Printf("Validation error: %v", err)
-}
-
 // Connection errors
 if err := client.WaitUntilConnected(timeout); err != nil {
     log.Printf("Connection failed: %v", err)
 }
-```
 
-## Configuration
-
-### TracePublishClientConfig
-
-```go
-config := &zelos.TracePublishClientConfig{
-    URL:            "grpc://localhost:2300",  // Agent URL
-    BatchSize:      1000,                     // Messages per batch
-    BatchTimeout:   100 * time.Millisecond,  // Max batch wait time
-    ReconnectDelay: 1000 * time.Millisecond, // Delay between reconnects
+// Schema validation errors
+if err := builder.TryInsertString("field", "value"); err != nil {
+    log.Printf("Validation error: %v", err)
 }
 ```
 
-### Environment Variables
+## Building from Source
 
-- `ZELOS_URL` - The URL of the Zelos agent (default: `grpc://127.0.0.1:2300`)
+```bash
+# Generate protobuf files
+./generate.sh
 
-## Examples
+# Build
+go build -v ./...
+```
 
-See the `examples/` directory for complete working examples:
+## Troubleshooting
 
-- `hello-world.go` - Basic usage matching Rust example
-- Demonstrates proper lifecycle management
-- Shows type-safe event building patterns
+**Connection refused**: Check if Zelos agent is running at the configured URL
 
-## Thread Safety
+**Field validation errors**: Ensure field names and types match the registered schema
 
-All public APIs are thread-safe and designed for concurrent use across goroutines.
-
-## Contributing
-
-Contributions are welcome! Please ensure any changes maintain compatibility with the Rust SDK patterns.
-
-## License
-
-This project is licensed under the same terms as the Rust SDK.
+**Build errors**: Run `./generate.sh` to regenerate protobuf files
