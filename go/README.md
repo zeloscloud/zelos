@@ -152,6 +152,11 @@ if err := builder.TryInsertString("field", "value"); err != nil {
 go build -v ./...
 ```
 
+## Run example
+```bash
+go run examples/hello-world.go
+```
+
 ## Troubleshooting
 
 **Connection refused**: Check if Zelos agent is running at the configured URL
