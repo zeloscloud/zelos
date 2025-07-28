@@ -287,7 +287,7 @@ const file_zeloscloud_trace_subscribe_proto_rawDesc = "" +
 	"\x13trace_message_batch\x18\x01 \x01(\v2#.zeloscloud.trace.TraceMessageBatchH\x00R\x11traceMessageBatchB\x05\n" +
 	"\x03msg2j\n" +
 	"\x0eTraceSubscribe\x12X\n" +
-	"\tSubscribe\x12\".zeloscloud.trace.SubscribeRequest\x1a#.zeloscloud.trace.SubscribeResponse(\x010\x01B4Z2github.com/zeloscloud/zelos/proto/zeloscloud/traceb\x06proto3"
+	"\tSubscribe\x12\".zeloscloud.trace.SubscribeRequest\x1a#.zeloscloud.trace.SubscribeResponse(\x010\x01b\x06proto3"
 
 var (
 	file_zeloscloud_trace_subscribe_proto_rawDescOnce sync.Once

@@ -193,7 +193,7 @@ const file_zeloscloud_trace_publish_proto_rawDesc = "" +
 	"\x0fPublishResponse\x127\n" +
 	"\x06status\x18\x01 \x01(\v2\x1f.zeloscloud.trace.PublishStatusR\x06status2b\n" +
 	"\fTracePublish\x12R\n" +
-	"\aPublish\x12 .zeloscloud.trace.PublishRequest\x1a!.zeloscloud.trace.PublishResponse(\x010\x01B4Z2github.com/zeloscloud/zelos/proto/zeloscloud/traceb\x06proto3"
+	"\aPublish\x12 .zeloscloud.trace.PublishRequest\x1a!.zeloscloud.trace.PublishResponse(\x010\x01b\x06proto3"
 
 var (
 	file_zeloscloud_trace_publish_proto_rawDescOnce sync.Once

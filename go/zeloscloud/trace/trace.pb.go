@@ -1091,7 +1091,7 @@ const file_zeloscloud_trace_trace_proto_rawDesc = "" +
 	"\x16DATA_TYPE_TIMESTAMP_NS\x10\v\x12\x14\n" +
 	"\x10DATA_TYPE_BINARY\x10\f\x12\x14\n" +
 	"\x10DATA_TYPE_STRING\x10\r\x12\x12\n" +
-	"\x0eDATA_TYPE_BOOL\x10\x0eB4Z2github.com/zeloscloud/zelos/proto/zeloscloud/traceb\x06proto3"
+	"\x0eDATA_TYPE_BOOL\x10\x0eb\x06proto3"
 
 var (
 	file_zeloscloud_trace_trace_proto_rawDescOnce sync.Once

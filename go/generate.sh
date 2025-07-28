@@ -31,10 +31,17 @@ if ! command -v protoc-gen-go-grpc &> /dev/null; then
 fi
 
 # Generate protobuf files
+# Reference proto files from the crates directory
 protoc --go_out=. --go_opt=paths=source_relative \
+       --go_opt=Mzeloscloud/trace/trace.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+       --go_opt=Mzeloscloud/trace/publish.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+       --go_opt=Mzeloscloud/trace/subscribe.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
        --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-       --proto_path=proto \
-       proto/zeloscloud/trace/*.proto
+       --go-grpc_opt=Mzeloscloud/trace/trace.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+       --go-grpc_opt=Mzeloscloud/trace/publish.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+       --go-grpc_opt=Mzeloscloud/trace/subscribe.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+       --proto_path=../crates/zelos-proto/proto \
+       ../crates/zelos-proto/proto/zeloscloud/trace/*.proto
 
 echo "Protobuf generation complete!"
 echo "Generated files:"
