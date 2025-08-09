@@ -218,6 +218,28 @@ func (b *EventBuilder) Emit() error {
 	}
 }
 
+// EmitAt emits the event at the specified timestamp
+func (b *EventBuilder) EmitAt(timeNs int64) error {
+    event := &TraceEvent{
+        TimeNs: timeNs,
+        Name:   b.parent.Name,
+        Fields: b.data,
+    }
+
+    msg := &IpcMessageWithId{
+        SegmentID:  b.parent.id,
+        SourceName: b.parent.sourceName,
+        Message:    &IpcMessageEvent{event},
+    }
+
+    select {
+    case b.parent.sender <- msg:
+        return nil
+    default:
+        return fmt.Errorf("failed to send event: channel full")
+    }
+}
+
 // TraceSourceEventBuilder helps build event schemas
 type TraceSourceEventBuilder struct {
 	source *TraceSource
@@ -392,6 +414,25 @@ func (s *TraceSource) Close() error {
 // BuildEvent creates a new TraceSourceEventBuilder
 func (s *TraceSource) BuildEvent(name string) *TraceSourceEventBuilder {
 	return NewTraceSourceEventBuilder(s, name)
+}
+
+// AddValueTable attaches a value table for a specific event field
+func (s *TraceSource) AddValueTable(eventName, fieldName string, values map[*Value]string) error {
+    msg := &IpcMessageWithId{
+        SegmentID:  s.ID,
+        SourceName: s.SourceName,
+        Message: &IpcMessageEventFieldNamedValues{&TraceEventFieldNamedValues{
+            EventName: eventName,
+            FieldName: fieldName,
+            Values:    values,
+        }},
+    }
+    select {
+    case s.sender <- msg:
+        return nil
+    default:
+        return fmt.Errorf("failed to send value table: channel full")
+    }
 }
 
 // AddEvent adds an event to the source
