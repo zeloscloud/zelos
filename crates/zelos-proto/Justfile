@@ -1,0 +1,25 @@
+# Justfile for zelos-proto crate
+
+set shell := ["bash", "-cu"]
+
+default:
+	@just --list
+
+build:
+	cargo build -p zelos-proto
+
+check:
+	cargo check -p zelos-proto --all-targets
+
+fmt:
+	cargo fmt -p zelos-proto
+
+clippy:
+	cargo clippy -p zelos-proto --all-targets -- -D warnings
+
+test:
+	cargo test -p zelos-proto
+
+# Proto build (uses build.rs)
+proto-build:
+	cargo build -p zelos-proto
