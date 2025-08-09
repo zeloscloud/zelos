@@ -1,0 +1,30 @@
+# Justfile for zelos crate-level tasks
+
+set shell := ["bash", "-cu"]
+
+default:
+	@just --list
+
+build:
+	cargo build -p zelos
+
+check:
+	cargo check -p zelos --all-targets
+
+fmt:
+	cargo fmt -p zelos
+
+clippy:
+	cargo clippy -p zelos --all-targets -- -D warnings
+
+# Tests
+test:
+	cargo test -p zelos
+
+# List examples wired to this crate
+examples:
+	@just -f ../../Justfile examples-list
+
+# Run a specific example with optional ZELOS_URL
+run-example name url="grpc://127.0.0.1:2300":
+	ZELOS_URL="{{url}}" cargo run -p zelos --example {{name}}

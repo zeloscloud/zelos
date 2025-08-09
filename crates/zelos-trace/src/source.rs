@@ -473,7 +473,7 @@ mod test {
         let (sender, receiver) = flume::unbounded::<IpcMessageWithId>();
         // Create our source
         let src = TraceSource::new("src", sender.clone());
-        let id = src.id.clone();
+        let id = src.id;
 
         // Check we get a start event on creation
         {

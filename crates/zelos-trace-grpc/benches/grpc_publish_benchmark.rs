@@ -128,10 +128,10 @@ mod router {
 
     #[divan::bench(args = BENCH_CONFIGS, sample_count = 5)]
     fn publish(config: &BenchConfig) {
-        divan::black_box(RUNTIME.block_on(async move {
+        RUNTIME.block_on(async move {
             let shutdown = CancellationToken::new();
             let (server_router, fut_server_router) = TraceRouter::new(shutdown.clone());
-            let _ = tokio::spawn(fut_server_router);
+            tokio::spawn(fut_server_router);
             let (server_url, task_server) = run_server(server_router.sender(), shutdown.clone())
                 .await
                 .expect("Failed to run server");
@@ -195,7 +195,8 @@ mod router {
             task_publish.abort();
             shutdown.cancel();
             task_server.await.unwrap().unwrap();
-        }))
+        });
+        divan::black_box(())
     }
 }
 
@@ -207,7 +208,7 @@ mod direct {
 
     #[divan::bench(args = BENCH_CONFIGS, sample_count = 5)]
     fn publish(config: &BenchConfig) {
-        divan::black_box(RUNTIME.block_on(async move {
+        RUNTIME.block_on(async move {
             // Create a server that forwards messages to a black hole channel as fast as possible
             let shutdown = CancellationToken::new();
             let (sender, receiver) = flume::bounded(1024);
@@ -277,6 +278,7 @@ mod direct {
             // Shutdown
             shutdown.cancel();
             task_server.await.unwrap().unwrap();
-        }))
+        });
+        divan::black_box(())
     }
 }

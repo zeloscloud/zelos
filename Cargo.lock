@@ -4501,6 +4501,8 @@ dependencies = [
 name = "zelos"
 version = "0.0.1"
 dependencies = [
+ "anyhow",
+ "rand",
  "tokio",
  "tokio-util",
  "tracing",
@@ -4508,6 +4510,7 @@ dependencies = [
  "zelos-proto",
  "zelos-trace",
  "zelos-trace-grpc",
+ "zelos-trace-types",
 ]
 
 [[package]]
