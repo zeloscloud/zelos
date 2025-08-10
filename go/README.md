@@ -151,13 +151,13 @@ if err := builder.TryInsertString("field", "value"); err != nil {
 }
 ```
 
-## Building from Source
+## Building from Source (in this repo)
 
 ```bash
-# Generate protobuf files
-./generate.sh
+# Regenerate Protobuf stubs (if proto files changed)
+just proto-go
 
-# Build
+# Build all packages
 go build -v ./...
 ```
 
@@ -175,6 +175,6 @@ Or use the unified helpers from the repo root:
 
 ```bash
 just examples go
+just example go hello-world
 just example go hello-world grpc://127.0.0.1:2300
-just examples-once go grpc://127.0.0.1:2300
 ```

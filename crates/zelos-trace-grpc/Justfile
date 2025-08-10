@@ -1,7 +1,3 @@
-# Justfile for zelos-trace-grpc crate
-
-set shell := ["bash", "-cu"]
-
 default:
 	@just --list
 
@@ -12,7 +8,7 @@ check:
 	cargo check -p zelos-trace-grpc --all-targets
 
 fmt:
-	cargo fmt -p zelos-trace-grpc
+	just -f ../../Justfile fmt
 
 clippy:
 	cargo clippy -p zelos-trace-grpc --all-targets -- -D warnings
@@ -22,7 +18,3 @@ test:
 
 bench:
 	cargo bench -p zelos-trace-grpc
-
-# List and run top-level examples (re-uses root Justfile)
-examples:
-	@just -f ../../Justfile examples-list

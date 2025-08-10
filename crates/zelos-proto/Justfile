@@ -1,7 +1,5 @@
 # Justfile for zelos-proto crate
 
-set shell := ["bash", "-cu"]
-
 default:
 	@just --list
 
@@ -12,7 +10,7 @@ check:
 	cargo check -p zelos-proto --all-targets
 
 fmt:
-	cargo fmt -p zelos-proto
+	just -f ../../Justfile fmt
 
 clippy:
 	cargo clippy -p zelos-proto --all-targets -- -D warnings

@@ -2,152 +2,105 @@
 
 A distributed tracing system built in Rust.
 
-## Crates
+## Repository layout
+- `crates/`
+  - `zelos` — Meta crate re-exporting top-level APIs
+  - `zelos-proto` — Protobuf definitions and generated types
+  - `zelos-trace` — Core trace model and logic
+  - `zelos-trace-grpc` — gRPC publish/subscribe client
+  - `zelos-trace-types` — Shared types
+- `examples/` — Rust examples
+- `go/` — Go client, examples, generated stubs
+- `python/` — Python examples (zelos-sdk pypi package)
 
-- `zelos` - Main crate that re-exports all functionality
-- `zelos-proto` - Protocol buffer definitions and gRPC types
-- `zelos-trace` - Core tracing functionality
-- `zelos-trace-grpc` - gRPC client and server implementations
-- `zelos-trace-types` - Shared types and data structures
+## Quick start
+Recommended: use the Nix dev shell. You can also run without Nix if you already have the toolchains.
 
-## Development
-
-### Prerequisites
-
-- Rust toolchain (via rustup)
-- just (command runner, optional but recommended)
-
-Install on macOS:
-
+### Nix + direnv
+1) Install Nix and direnv
 ```bash
-# Install Rust (includes cargo)
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Install Nix
+sh <(curl -L https://nixos.org/nix/install) --daemon
 
-# Install just
-# 1) Homebrew
-brew install just
-# 2) Cargo
-cargo install just
+# Install direnv
+brew install direnv        # macOS
+sudo apt-get install direnv -y  # Debian/Ubuntu
+
+# Add to your shell rc (bash example)
+echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
-Install on Linux:
-
+2) Enter the dev shell (auto-activated with direnv)
 ```bash
-# Install Rust (includes cargo)
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cd zelos
+# First time only
+direnv allow
+```
+This provides Rust, Go, protoc (+ plugins), uv, ruff, treefmt and more.
 
-# Install just (choose one)
-# 1) Your package manager (Debian/Ubuntu example)
-sudo apt-get update && sudo apt-get install -y just || true
-# 2) Cargo
-cargo install just
+3) Build and test
+```bash
+just build
+just test
 ```
 
-Install on Windows (PowerShell):
-
-```powershell
-# Install Rust (includes cargo)
-iwr https://sh.rustup.rs -UseBasicParsing | Invoke-Expression
-
-# Install just via cargo
-cargo install just
-```
-
-Notes:
-- After installing Rust, ensure your shell environment is reloaded so `cargo` is on PATH (`source $HOME/.cargo/env`).
-- We vendor protoc via prost; you do NOT need system `protoc`.
-
-### Use the top-level Justfile for common tasks
+## Common commands
+Use the top-level `Justfile`.
 
 ```bash
-# See available commands
+# List all recipes
 just
 
 # Build, check, lint, test
 just build
 just check
-just fmt
-just fmt-check
 just clippy
 just test
 
-# List examples by language
+# Formatting
+just fmt         # format all supported languages (treefmt)
+just fmt-check   # check-only
+just fix         # format and fix all
+```
+
+### Examples
+Ensure a Zelos agent/app is reachable at your URL (default `grpc://127.0.0.1:2300`).
+
+List examples for a language:
+```bash
 just examples rust
 just examples go
 just examples python
+```
 
-# Run one example (language-agnostic)
+Run one example (optional URL overrides default):
+```bash
+just example rust hello-world
+just example go hello-world
+just example python hello-world
+# with custom agent URL
 just example rust hello-world grpc://127.0.0.1:2300
-just example go hello-world grpc://127.0.0.1:2300
-just example python hello-world grpc://127.0.0.1:2300
-
-# Run all finite examples for a language
-just examples-once rust grpc://127.0.0.1:2300
-just examples-once go grpc://127.0.0.1:2300
-just examples-once python grpc://127.0.0.1:2300
 ```
 
-### Quickstart
+## Protobuf code generation
 
-```bash
-# 1) Clone the repo
-git clone https://github.com/zeloscloud/zelos.git
-cd zelos
-
-# 2) Build the workspace
-just build
-
-# 3) Ensure a Zelos agent/app is running and reachable at your URL (default below).
-
-# 4) Run your first publisher examples
-just example rust hello-world grpc://127.0.0.1:2300
-just example go hello-world grpc://127.0.0.1:2300
-
-# Optional: run all finite publishing examples
-just examples-once rust grpc://127.0.0.1:2300
-just examples-once go grpc://127.0.0.1:2300
-
-### Run without just
-
-Rust:
-```bash
-ZELOS_URL=grpc://127.0.0.1:2300 cargo run -p zelos --example hello-world
-```
-
-Go:
-```bash
-ZELOS_URL=grpc://127.0.0.1:2300 go run go/examples/hello-world
-```
-
-### Protobuf (Go) code generation
-
-Only needed if you modify proto files and need to regenerate the Go stubs.
-
-Requirements:
-- protoc installed
-  - macOS: `brew install protobuf`
-  - Debian/Ubuntu: `sudo apt-get install -y protobuf-compiler`
-- Go toolchain (recommended so the Just recipe can install plugins):
-  - macOS: `brew install go`
-
-Generate Go protobufs:
-
+Regenerate Go stubs (when proto files change):
 ```bash
 just proto-go
 ```
+Outputs go to `go/` from sources in `crates/zelos-proto/proto/`.
 
-If the recipe reports missing plugins:
-
-```bash
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-```
+## Developing
+- Rust workspace: standard Cargo workflow (`just build`, `just test`, `just clippy`).
+- Formatting/linting: `just fmt`, `just fmt-check`, `just fix`.
+- Python examples run with `uv`
+- Go examples run with the system `go`
 
 ## License
+Licensed under either of:
+- Apache License, Version 2.0 — see `LICENSE-APACHE` or https://www.apache.org/licenses/LICENSE-2.0
+- MIT license — see `LICENSE-MIT` or https://opensource.org/licenses/MIT
 
-Licensed under either of
+At your option.
 
- * Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
- * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
-
-at your option.
