@@ -183,10 +183,8 @@ mod router {
             // Wait for all messages to be confirmed
             loop {
                 let status = client.last_publish_status().await;
-                if let Some(status) = status {
-                    if status.successful_messages >= total_messages as u64 {
-                        break;
-                    }
+                if matches!(status, Some(ref s) if s.successful_messages >= total_messages as u64) {
+                    break;
                 }
                 tokio::time::sleep(Duration::from_millis(10)).await;
             }
@@ -268,10 +266,8 @@ mod direct {
             // Wait for all messages to be confirmed
             let mut response_stream = response.into_inner();
             while let Some(Ok(msg)) = response_stream.next().await {
-                if let Some(status) = msg.status {
-                    if status.successful_messages >= total_messages as u64 {
-                        break;
-                    }
+                if matches!(msg.status, Some(ref s) if s.successful_messages >= total_messages as u64) {
+                    break;
                 }
             }
 
