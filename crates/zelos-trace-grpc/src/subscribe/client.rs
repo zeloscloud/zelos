@@ -4,8 +4,8 @@ use tokio_stream::wrappers::ReceiverStream;
 use tokio_util::sync::CancellationToken;
 use tonic::Streaming;
 use zelos_proto::trace::{
-    SubscribeCommand, SubscribeRequest, SubscribeResponse, UnsubscribeCommand, subscribe_request,
-    trace_subscribe_client,
+    subscribe_request, trace_subscribe_client, SubscribeCommand, SubscribeRequest,
+    SubscribeResponse, UnsubscribeCommand,
 };
 
 pub struct TraceSubscribeClient {

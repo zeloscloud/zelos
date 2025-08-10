@@ -1,20 +1,20 @@
 use std::{collections::HashMap, sync::LazyLock, time::Duration};
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use tokio::task::JoinHandle;
 use tokio_stream::wrappers::TcpListenerStream;
 use tokio_util::sync::CancellationToken;
 use tonic::transport::Server;
 use tracing::level_filters::LevelFilter;
-use tracing_subscriber::{Layer, filter::Targets, layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::{filter::Targets, layer::SubscriberExt, util::SubscriberInitExt, Layer};
 use uuid::Uuid;
 use zelos_trace::TraceRouter;
 use zelos_trace_grpc::publish::{
     TracePublishClient, TracePublishClientConfig, TracePublishService,
 };
 use zelos_trace_types::{
-    Value,
     ipc::{IpcMessage, IpcMessageWithId, Sender},
+    Value,
 };
 
 static RUNTIME: LazyLock<tokio::runtime::Runtime> = LazyLock::new(|| {

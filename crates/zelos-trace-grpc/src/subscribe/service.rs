@@ -3,11 +3,11 @@ use std::{pin::Pin, sync::Arc, time::Duration};
 use tokio_stream::{Stream, StreamExt};
 use tonic::{Request, Response, Status, Streaming};
 use zelos_proto::trace::{
-    SubscribeRequest, SubscribeResponse,
     subscribe_request::Cmd,
     trace_subscribe_server::{TraceSubscribe, TraceSubscribeServer},
+    SubscribeRequest, SubscribeResponse,
 };
-use zelos_trace::{TraceRouter, filter::Filter};
+use zelos_trace::{filter::Filter, TraceRouter};
 
 const CHUNK_SIZE: usize = 1024;
 const CHUNK_TIMEOUT: Duration = Duration::from_millis(10);

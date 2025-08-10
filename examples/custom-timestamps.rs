@@ -1,7 +1,7 @@
 use std::time::Duration;
 use tokio::time;
 use tokio_util::sync::CancellationToken;
-use zelos_trace::{TraceRouter, TraceSource, time::now_time_ns};
+use zelos_trace::{time::now_time_ns, TraceRouter, TraceSource};
 use zelos_trace_grpc::publish::{TracePublishClient, TracePublishClientConfig};
 
 #[tokio::main]

@@ -5,8 +5,8 @@
 # ///
 from __future__ import annotations
 
+from typing import Any, Dict
 import time
-from typing import Dict, Any
 
 import zelos_sdk as zelos
 

@@ -5,8 +5,8 @@
 # ///
 from __future__ import annotations
 
-import time
 from typing import Iterable
+import time
 
 import zelos_sdk as zelos
 

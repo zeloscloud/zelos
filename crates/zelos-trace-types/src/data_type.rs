@@ -1,5 +1,5 @@
 #[cfg(feature = "duckdb")]
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 #[cfg(feature = "duckdb")]
 use base64::prelude::*;
 #[cfg(feature = "duckdb")]

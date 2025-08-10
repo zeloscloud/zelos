@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use uuid::Uuid;
 use zelos_trace_types::ipc::{IpcMessage, IpcMessageWithId};
 

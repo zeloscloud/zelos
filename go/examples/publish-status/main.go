@@ -33,12 +33,12 @@ func main() {
 	defer source.Close()
 	evt, _ := source.BuildEvent("sample").AddUint64Field("n", nil).Build()
 
-    for n := uint64(1); n <= 5; n++ {
-        b, _ := evt.Build().TryInsertUint64("n", n)
-        if err := b.Emit(); err != nil {
-            log.Printf("emit error: %v", err)
-        }
-    }
+	for n := uint64(1); n <= 5; n++ {
+		b, _ := evt.Build().TryInsertUint64("n", n)
+		if err := b.Emit(); err != nil {
+			log.Printf("emit error: %v", err)
+		}
+	}
 
-    log.Printf("status: %s", client.GetConnectionStatus().String())
+	log.Printf("status: %s", client.GetConnectionStatus().String())
 }

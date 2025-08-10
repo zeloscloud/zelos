@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 #[cfg(feature = "duckdb")]
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 #[cfg(feature = "duckdb")]
 use duckdb::Row;
 use serde::Serialize;

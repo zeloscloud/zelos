@@ -1,5 +1,5 @@
 use std::time::{Duration, Instant};
-use tokio::time::{MissedTickBehavior, interval};
+use tokio::time::{interval, MissedTickBehavior};
 use tokio_util::sync::CancellationToken;
 use zelos_trace::{TraceRouter, TraceSource};
 use zelos_trace_grpc::publish::{TracePublishClient, TracePublishClientConfig};

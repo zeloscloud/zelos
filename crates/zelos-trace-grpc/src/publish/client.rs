@@ -1,11 +1,11 @@
 use std::{sync::Arc, time::Duration};
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use tokio::{sync::watch, time::Instant};
 use tokio_stream::StreamExt;
 use tonic::{Code, Request};
 use zelos_proto::trace::{
-    PublishRequest, PublishStatus, trace_publish_client::TracePublishClient as GrpcClient,
+    trace_publish_client::TracePublishClient as GrpcClient, PublishRequest, PublishStatus,
 };
 use zelos_trace::TraceRouter;
 

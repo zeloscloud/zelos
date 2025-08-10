@@ -4,8 +4,8 @@ use chrono::{DateTime, Utc};
 use rpds::HashTrieMapSync;
 use uuid::Uuid;
 use zelos_trace_types::{
-    PathSegment, Signal, SignalKey, Value,
     ipc::{self, TraceEventFieldMetadata},
+    PathSegment, Signal, SignalKey, Value,
 };
 
 #[derive(Debug, Clone)]
