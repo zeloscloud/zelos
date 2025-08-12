@@ -13,7 +13,7 @@ prost = { workspace = true }
 thiserror = { workspace = true }
 tonic = { workspace = true }
 uuid = { workspace = true }
-zelos-trace-types = { workspace = true}
+zelos-trace-types = { workspace = true }
 
 [build-dependencies]
 prost-build = { workspace = true }

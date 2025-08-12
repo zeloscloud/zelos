@@ -20,8 +20,7 @@ func main() {
 	log.Printf("Connecting to Zelos agent at: %s", url)
 
 	// Set up the router (similar to Rust's TraceRouter::new)
-	router, sender, receiver := zelos.NewTraceRouter(ctx)
-	_ = router // We'll use this later when we implement subscription
+	_, sender, receiver := zelos.NewTraceRouter(ctx)
 
 	// Set up the publish client
 	config := zelos.DefaultTracePublishClientConfig()
@@ -42,7 +41,7 @@ func main() {
 	log.Printf("Connected to agent at %s", url)
 
 	// Create a TraceSource (similar to Rust's TraceSource::new)
-	source, err := zelos.NewTraceSource("hello-world-go", sender)
+	source, err := zelos.NewTraceSource("hello-world-example", sender)
 	if err != nil {
 		log.Fatalf("Failed to create trace source: %v", err)
 	}

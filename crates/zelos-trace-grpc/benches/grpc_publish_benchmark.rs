@@ -1,20 +1,20 @@
 use std::{collections::HashMap, sync::LazyLock, time::Duration};
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use tokio::task::JoinHandle;
 use tokio_stream::wrappers::TcpListenerStream;
 use tokio_util::sync::CancellationToken;
 use tonic::transport::Server;
 use tracing::level_filters::LevelFilter;
-use tracing_subscriber::{Layer, filter::Targets, layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::{filter::Targets, layer::SubscriberExt, util::SubscriberInitExt, Layer};
 use uuid::Uuid;
 use zelos_trace::TraceRouter;
 use zelos_trace_grpc::publish::{
     TracePublishClient, TracePublishClientConfig, TracePublishService,
 };
 use zelos_trace_types::{
-    Value,
     ipc::{IpcMessage, IpcMessageWithId, Sender},
+    Value,
 };
 
 static RUNTIME: LazyLock<tokio::runtime::Runtime> = LazyLock::new(|| {
@@ -128,10 +128,10 @@ mod router {
 
     #[divan::bench(args = BENCH_CONFIGS, sample_count = 5)]
     fn publish(config: &BenchConfig) {
-        divan::black_box(RUNTIME.block_on(async move {
+        RUNTIME.block_on(async move {
             let shutdown = CancellationToken::new();
             let (server_router, fut_server_router) = TraceRouter::new(shutdown.clone());
-            let _ = tokio::spawn(fut_server_router);
+            tokio::spawn(fut_server_router);
             let (server_url, task_server) = run_server(server_router.sender(), shutdown.clone())
                 .await
                 .expect("Failed to run server");
@@ -183,10 +183,8 @@ mod router {
             // Wait for all messages to be confirmed
             loop {
                 let status = client.last_publish_status().await;
-                if let Some(status) = status {
-                    if status.successful_messages >= total_messages as u64 {
-                        break;
-                    }
+                if matches!(status, Some(ref s) if s.successful_messages >= total_messages as u64) {
+                    break;
                 }
                 tokio::time::sleep(Duration::from_millis(10)).await;
             }
@@ -195,7 +193,8 @@ mod router {
             task_publish.abort();
             shutdown.cancel();
             task_server.await.unwrap().unwrap();
-        }))
+        });
+        divan::black_box(())
     }
 }
 
@@ -207,7 +206,7 @@ mod direct {
 
     #[divan::bench(args = BENCH_CONFIGS, sample_count = 5)]
     fn publish(config: &BenchConfig) {
-        divan::black_box(RUNTIME.block_on(async move {
+        RUNTIME.block_on(async move {
             // Create a server that forwards messages to a black hole channel as fast as possible
             let shutdown = CancellationToken::new();
             let (sender, receiver) = flume::bounded(1024);
@@ -267,16 +266,15 @@ mod direct {
             // Wait for all messages to be confirmed
             let mut response_stream = response.into_inner();
             while let Some(Ok(msg)) = response_stream.next().await {
-                if let Some(status) = msg.status {
-                    if status.successful_messages >= total_messages as u64 {
-                        break;
-                    }
+                if matches!(msg.status, Some(ref s) if s.successful_messages >= total_messages as u64) {
+                    break;
                 }
             }
 
             // Shutdown
             shutdown.cancel();
             task_server.await.unwrap().unwrap();
-        }))
+        });
+        divan::black_box(())
     }
 }

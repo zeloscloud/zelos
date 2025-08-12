@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use uuid::Uuid;
 use zelos_trace_types::ipc::{IpcMessage, IpcMessageWithId};
 
@@ -62,10 +62,9 @@ impl Filter {
             _ => {}
         }
 
-        if let Some(match_source_name) = &self.source_name {
-            if match_source_name != &msg.source_name {
-                return false;
-            }
+        if matches!(&self.source_name, Some(match_source_name) if match_source_name != &msg.source_name)
+        {
+            return false;
         }
 
         match (&self.event_name, &msg.msg) {

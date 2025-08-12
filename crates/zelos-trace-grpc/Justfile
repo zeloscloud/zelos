@@ -1,0 +1,20 @@
+default:
+	@just --list
+
+build:
+	cargo build -p zelos-trace-grpc
+
+check:
+	cargo check -p zelos-trace-grpc --all-targets
+
+fmt:
+	just -f ../../Justfile fmt
+
+clippy:
+	cargo clippy -p zelos-trace-grpc --all-targets -- -D warnings
+
+test:
+	cargo test -p zelos-trace-grpc
+
+bench:
+	cargo bench -p zelos-trace-grpc

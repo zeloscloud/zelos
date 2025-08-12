@@ -1,12 +1,12 @@
 use std::pin::Pin;
 
 use tokio::{sync::mpsc, time::Duration};
-use tokio_stream::{Stream, wrappers::ReceiverStream};
+use tokio_stream::{wrappers::ReceiverStream, Stream};
 use tokio_util::sync::CancellationToken;
 use tonic::{Request, Response, Status, Streaming};
 use zelos_proto::trace::{
-    PublishRequest, PublishResponse, PublishStatus,
     trace_publish_server::{TracePublish, TracePublishServer},
+    PublishRequest, PublishResponse, PublishStatus,
 };
 use zelos_trace_types::ipc::Sender;
 

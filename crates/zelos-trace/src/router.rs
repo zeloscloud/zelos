@@ -7,8 +7,8 @@ use tokio_util::sync::CancellationToken;
 use zelos_trace_types::ipc::{IpcMessageWithId, Receiver, Sender};
 
 use crate::{
-    MetadataOnlyStore, Store, TraceSink,
     sink::{TraceSinkHandle, TraceSinkHandleAllBlocking},
+    MetadataOnlyStore, Store, TraceSink,
 };
 
 // TODO(tkeairns): Ground this constant into some relationship with # msgs/sec

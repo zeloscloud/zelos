@@ -143,7 +143,10 @@ mod test {
     fn test_basic() {
         let metadata = TraceMetadata::new();
 
-        let segment_id = Uuid::try_parse("0196c84d-6eb8-7c46-83b1-e4cac73ba9b6").unwrap();
+        let segment_id = match Uuid::try_parse("0196c84d-6eb8-7c46-83b1-e4cac73ba9b6") {
+            Ok(id) => id,
+            Err(e) => panic!("failed to parse uuid: {e}"),
+        };
         let source_name = "src";
         let start = ipc::TraceSegmentStart {
             time_ns: 0,
@@ -156,7 +159,10 @@ mod test {
         });
 
         {
-            let seg = metadata.get_segment(&segment_id).unwrap();
+            let seg = match metadata.get_segment(&segment_id) {
+                Some(seg) => seg,
+                None => panic!("segment not found after start"),
+            };
             assert_eq!(seg.id, segment_id);
             assert_eq!(seg.source, "src");
             assert_eq!(seg.start_time, Some(DateTime::from_timestamp_nanos(0)));
@@ -171,7 +177,10 @@ mod test {
         });
 
         {
-            let seg = metadata.get_segment(&segment_id).unwrap();
+            let seg = match metadata.get_segment(&segment_id) {
+                Some(seg) => seg,
+                None => panic!("segment not found after end"),
+            };
             assert_eq!(seg.end_time, Some(DateTime::from_timestamp_nanos(1)));
         }
     }

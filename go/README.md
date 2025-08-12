@@ -1,6 +1,6 @@
 # Zelos Go SDK
 
-A Go SDK for the Zelos distributed tracing system.
+Publish trace events from Go applications to a running Zelos agent/app.
 
 ## Installation
 
@@ -151,25 +151,30 @@ if err := builder.TryInsertString("field", "value"); err != nil {
 }
 ```
 
-## Building from Source
+## Building from Source (in this repo)
 
 ```bash
-# Generate protobuf files
-./generate.sh
+# Regenerate Protobuf stubs (if proto files changed)
+just proto-go
 
-# Build
+# Build all packages
 go build -v ./...
 ```
 
-## Run example
+## Examples in this repo
+
+See `go/examples` and the top-level Justfile for publisher-only examples mirroring the Rust ones.
+
+Run directly with Go:
+
 ```bash
-go run examples/hello-world.go
+ZELOS_URL=grpc://127.0.0.1:2300 go run go/examples/hello-world
 ```
 
-## Troubleshooting
+Or use the unified helpers from the repo root:
 
-**Connection refused**: Check if Zelos agent is running at the configured URL
-
-**Field validation errors**: Ensure field names and types match the registered schema
-
-**Build errors**: Run `./generate.sh` to regenerate protobuf files
+```bash
+just examples go
+just example go hello-world
+just example go hello-world grpc://127.0.0.1:2300
+```

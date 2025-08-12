@@ -1,14 +1,14 @@
 use std::{collections::HashMap, sync::Arc};
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use parking_lot::RwLock;
 use uuid::Uuid;
 use zelos_trace_types::{
-    Value,
     ipc::{
         IpcMessage, IpcMessageWithId, Sender, TraceEvent, TraceEventFieldMetadata,
         TraceEventFieldNamedValues, TraceEventSchema, TraceSegmentEnd, TraceSegmentStart,
     },
+    Value,
 };
 
 use crate::time::now_time_ns;
@@ -67,7 +67,7 @@ impl TraceSourceEvent {
     }
 }
 
-/// TraceSource is the main interface to emitting Zelos trace events. It provides convencience methods for building new
+/// TraceSource is the main interface to emitting Zelos trace events. It provides convenience methods for building new
 /// event schemas and emitting events from them.
 #[derive(Debug)]
 pub struct TraceSource {
@@ -473,7 +473,7 @@ mod test {
         let (sender, receiver) = flume::unbounded::<IpcMessageWithId>();
         // Create our source
         let src = TraceSource::new("src", sender.clone());
-        let id = src.id.clone();
+        let id = src.id;
 
         // Check we get a start event on creation
         {

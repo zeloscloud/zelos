@@ -25,9 +25,9 @@ import (
 	"sync"
 	"time"
 
+	pb "github.com/zeloscloud/zelos/go/zeloscloud/trace"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "github.com/zeloscloud/zelos/go/zeloscloud/trace"
 )
 
 // ConnectionStatus represents the connection status

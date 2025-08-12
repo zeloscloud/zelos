@@ -4,8 +4,8 @@ use chrono::{DateTime, Utc};
 use rpds::HashTrieMapSync;
 use uuid::Uuid;
 use zelos_trace_types::{
-    PathSegment, Signal, SignalKey, Value,
     ipc::{self, TraceEventFieldMetadata},
+    PathSegment, Signal, SignalKey, Value,
 };
 
 #[derive(Debug, Clone)]
@@ -220,10 +220,8 @@ impl TraceSegment {
         key: &SignalKey,
     ) -> Option<TraceEventFieldRef<'a>> {
         // Return early if this signal key is for a specific uuid and we don't match it
-        if let PathSegment::Uuid { uuid } = key.data_segment_id {
-            if uuid != self.id {
-                return None;
-            }
+        if matches!(key.data_segment_id, PathSegment::Uuid { uuid } if uuid != self.id) {
+            return None;
         }
 
         // Return early if this signal key is for a specific source and we don't match it

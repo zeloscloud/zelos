@@ -1,0 +1,50 @@
+on-unmatched = "debug"
+
+[formatter.ruff-format]
+command = "ruff"
+options = ["format"]
+includes = [
+  "python/**/*.py",
+  "python/**/*.pyi",
+]
+
+[formatter.ruff-check]
+command = "ruff"
+options = ["check", "--fixable", "I", "--fix"]
+includes = [
+  "python/**/*.py",
+  "python/**/*.pyi",
+]
+
+[formatter.gofmt]
+command = "gofmt"
+options = ["-w"]
+includes = ["**/*.go"]
+
+[formatter.taplo]
+command = "taplo"
+options = ["format", "-o", "array_auto_collapse=false"]
+includes = ["**/*.toml"]
+
+## Skip just-fmt to avoid extra tool dependency
+
+[formatter.rust]
+command = "rustfmt"
+includes = ["**/*.rs"]
+
+
+[formatter.shfmt]
+command = "shfmt"
+options = [
+  "-i", "2",
+  "-s",
+  "-w",
+]
+includes = ["**/*.sh"]
+
+[formatter.shellcheck]
+command = "shellcheck"
+options = ["-S", "error"]
+includes = ["**/*.sh"]
+
+

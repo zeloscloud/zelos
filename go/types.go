@@ -128,9 +128,12 @@ func NewFloat64Value(v float64) *Value {
 	return &Value{value: v}
 }
 
+// TimestampNs is a distinct type to represent nanosecond timestamps
+type TimestampNs int64
+
 // NewTimestampNsValue creates a new timestamp Value
 func NewTimestampNsValue(v int64) *Value {
-	return &Value{value: v}
+	return &Value{value: TimestampNs(v)}
 }
 
 // NewBinaryValue creates a new binary Value
@@ -151,6 +154,8 @@ func NewBooleanValue(v bool) *Value {
 // DataType returns the DataType of this Value
 func (v *Value) DataType() DataType {
 	switch v.value.(type) {
+	case TimestampNs:
+		return DataTypeTimestampNs
 	case int8:
 		return DataTypeInt8
 	case int16:
@@ -264,10 +269,14 @@ func (v *Value) AsFloat64() (float64, bool) {
 
 // AsTimestampNs returns the value as int64 timestamp if possible
 func (v *Value) AsTimestampNs() (int64, bool) {
-	if val, ok := v.value.(int64); ok {
+	switch val := v.value.(type) {
+	case TimestampNs:
+		return int64(val), true
+	case int64:
 		return val, true
+	default:
+		return 0, false
 	}
-	return 0, false
 }
 
 // AsBinary returns the value as []byte if possible

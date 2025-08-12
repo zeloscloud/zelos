@@ -1,0 +1,22 @@
+# Justfile for zelos crate-level tasks
+
+default:
+    @just --list
+
+build:
+    cargo build -p zelos
+
+check:
+    cargo check -p zelos --all-targets
+
+fmt:
+    # Use root treefmt for consistent multi-language formatting
+    just -f ../../Justfile fmt
+
+clippy:
+    cargo clippy -p zelos --all-targets -- -D warnings
+
+# Tests
+test:
+    cargo test -p zelos
+

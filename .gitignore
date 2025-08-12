@@ -1,4 +1,7 @@
 .direnv
+.envrc.local
+
+.direnv
 GIT_DESCRIBE
 result
 result-*

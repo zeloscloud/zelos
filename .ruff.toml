@@ -1,0 +1,13 @@
+line-length = 120
+target-version = "py310"
+
+[lint]
+extend-select = ["I"]
+
+[lint.isort]
+known-first-party = []
+split-on-trailing-comma = true
+from-first = true
+
+
+
