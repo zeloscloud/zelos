@@ -55,13 +55,16 @@ proto-go:
       --go_opt=Mzeloscloud/trace/trace.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
       --go_opt=Mzeloscloud/trace/publish.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
       --go_opt=Mzeloscloud/trace/subscribe.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+      --go_opt=Mzeloscloud/actions/actions.proto=github.com/zeloscloud/zelos/go/zeloscloud/actions \
       --go-grpc_out=go \
       --go-grpc_opt=paths=source_relative \
       --go-grpc_opt=Mzeloscloud/trace/trace.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
       --go-grpc_opt=Mzeloscloud/trace/publish.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
       --go-grpc_opt=Mzeloscloud/trace/subscribe.proto=github.com/zeloscloud/zelos/go/zeloscloud/trace \
+      --go-grpc_opt=Mzeloscloud/actions/actions.proto=github.com/zeloscloud/zelos/go/zeloscloud/actions \
       --proto_path=crates/zelos-proto/proto \
-      crates/zelos-proto/proto/zeloscloud/trace/*.proto
+      crates/zelos-proto/proto/zeloscloud/trace/*.proto \
+      crates/zelos-proto/proto/zeloscloud/actions/*.proto
 
 
 # === Examples === #

@@ -161,6 +161,41 @@ just proto-go
 go build -v ./...
 ```
 
+## Actions
+
+Besides publishing traces, the SDK can serve callable actions to a Zelos agent.
+Implement the `Action` interface (or use `NewActionFromSchema`), register each
+action under a path in an `ActionsRegistry`, then serve them with an
+`ActionsClient`. Action schemas are ordered JSON Schema strings whose property
+order determines the order fields are rendered, so use `NewActionSchema(...)` to
+build them field-by-field in declaration order:
+
+```go
+schema := zelos.NewActionSchema("Add Numbers", "Add two numbers together").
+    Number("x", zelos.Description("First number"), zelos.Required()).
+    Number("y", zelos.Required())
+
+action := zelos.NewActionFromSchema(schema, func(ctx context.Context, params json.RawMessage) (*zelos.ActionResult, error) {
+    // decode params, do work
+    return zelos.ActionResultDone(map[string]any{"sum": 3}), nil
+})
+```
+
+See `go/examples/actions/main.go` for a runnable example (`add` and
+`check_threshold`), served on the agent as `go-example/add` etc.:
+
+```bash
+just example go actions
+```
+
+`go/examples/actions-advanced/main.go` demonstrates cooperative cancellation: a
+long-running action watches its context, so pressing Ctrl-C in the provider
+cancels the in-flight invocation:
+
+```bash
+just example go actions-advanced
+```
+
 ## Examples in this repo
 
 See `go/examples` and the top-level Justfile for publisher-only examples mirroring the Rust ones.

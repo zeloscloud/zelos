@@ -9,6 +9,7 @@ fn main() -> Result<()> {
     tonic_build::configure().compile_protos_with_config(
         prost_config,
         &[
+            "proto/zeloscloud/actions/actions.proto",
             "proto/zeloscloud/trace/publish.proto",
             "proto/zeloscloud/trace/subscribe.proto",
             "proto/zeloscloud/trace/trace.proto",

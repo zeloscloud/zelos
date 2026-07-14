@@ -1,0 +1,24 @@
+[package]
+name = "zelos-actions"
+version = "0.0.1"
+edition = "2024"
+description = "Actions SDK for Zelos: register and serve actions over gRPC"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/zeloscloud/zelos"
+keywords = ["actions", "grpc", "rpc", "sdk"]
+categories = ["development-tools", "asynchronous"]
+
+[dependencies]
+async-trait = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "sync", "time"] }
+tokio-stream = { workspace = true }
+tokio-util = { workspace = true }
+tonic = { workspace = true }
+tracing = { workspace = true }
+zelos-proto = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["net"] }
+tokio-stream = { workspace = true, features = ["net"] }

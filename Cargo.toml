@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
   "crates/zelos",
+  "crates/zelos-actions",
   "crates/zelos-proto",
   "crates/zelos-trace",
   "crates/zelos-trace-grpc",
@@ -10,6 +11,7 @@ members = [
 
 [workspace.dependencies]
 # Internal crates
+zelos-actions = { version = "0.0.1", path = "crates/zelos-actions" }
 zelos-trace-types = { version = "0.0.1", path = "crates/zelos-trace-types" }
 zelos-proto = { version = "0.0.1", path = "crates/zelos-proto" }
 zelos-trace = { version = "0.0.1", path = "crates/zelos-trace" }

@@ -4502,15 +4502,33 @@ name = "zelos"
 version = "0.0.1"
 dependencies = [
  "anyhow",
+ "async-trait",
  "rand",
+ "serde_json",
  "tokio",
  "tokio-util",
  "tracing",
  "tracing-subscriber",
+ "zelos-actions",
  "zelos-proto",
  "zelos-trace",
  "zelos-trace-grpc",
  "zelos-trace-types",
+]
+
+[[package]]
+name = "zelos-actions"
+version = "0.0.1"
+dependencies = [
+ "async-trait",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-stream",
+ "tokio-util",
+ "tonic",
+ "tracing",
+ "zelos-proto",
 ]
 
 [[package]]
