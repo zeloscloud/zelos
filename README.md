@@ -5,6 +5,7 @@ A distributed tracing system built in Rust.
 ## Repository layout
 - `crates/`
   - `zelos` — Meta crate re-exporting top-level APIs
+  - `zelos-actions` — Register and serve actions over gRPC
   - `zelos-proto` — Protobuf definitions and generated types
   - `zelos-trace` — Core trace model and logic
   - `zelos-trace-grpc` — gRPC publish/subscribe client
@@ -81,6 +82,32 @@ just example go hello-world
 just example python hello-world
 # with custom agent URL
 just example rust hello-world grpc://127.0.0.1:2300
+```
+
+## Actions
+Actions let your program expose callable operations to a Zelos agent. Implement the
+`Action` trait, register each action under a path in an `ActionsRegistry`, then use
+`ActionsClient` to serve them to the agent. Once served, the actions show up on the
+agent namespaced by your service name (e.g. `rust-example/add`).
+
+See `examples/actions.rs` for a runnable example with two actions (`add` and
+`check_threshold`):
+```bash
+just example rust actions
+```
+
+The Go SDK exposes the same API (`Action`, `ActionsRegistry`, `ActionsClient`) and,
+like the Rust SDK, an ergonomic order-preserving `ActionSchema` builder; see
+`go/examples/actions/main.go`:
+```bash
+just example go actions
+```
+
+The advanced examples demonstrate cooperative cancellation: pressing Ctrl-C in the
+provider cancels an in-flight action, which logs its cleanup on the way out.
+```bash
+just example rust actions-advanced
+just example go actions-advanced
 ```
 
 ## Protobuf code generation

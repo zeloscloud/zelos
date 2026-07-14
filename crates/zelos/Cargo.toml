@@ -15,6 +15,7 @@ keywords = [
 categories = ["development-tools", "asynchronous"]
 
 [dependencies]
+zelos-actions = { workspace = true }
 zelos-proto = { workspace = true }
 zelos-trace = { workspace = true }
 zelos-trace-grpc = { workspace = true }
@@ -23,10 +24,20 @@ anyhow = { workspace = true }
 rand = { version = "0.8" }
 
 # Dependencies for examples
+async-trait = { workspace = true }
+serde_json = { workspace = true }
 tokio = { workspace = true, features = ["rt", "macros"] }
 tokio-util = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
+
+[[example]]
+name = "actions"
+path = "../../examples/actions.rs"
+
+[[example]]
+name = "actions-advanced"
+path = "../../examples/actions-advanced.rs"
 
 [[example]]
 name = "hello-world"

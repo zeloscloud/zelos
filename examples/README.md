@@ -2,16 +2,21 @@
 
 Examples showing how to use the Zelos Rust client APIs to publish trace events. Each example is standalone.
 
-## How to run
+## Build and run
 
 Ensure a Zelos agent/app is running and reachable.
 
-Using cargo directly:
+Using Cargo directly from the repository root:
 ```bash
+# Build every Rust example
+cargo build -p zelos --examples
+
+# Build or run one example
+cargo build -p zelos --example actions
 cargo run -p zelos --example <example-name>
 ```
 
-Or from the repo root via the Justfile:
+Or use the Justfile:
 ```bash
 # List Rust examples
 just examples rust
@@ -21,7 +26,31 @@ just example rust hello-world
 just example rust hello-world grpc://127.0.0.1:2300
 ```
 
+### Actions
+
+```bash
+# Basic schema, registration, and Pass/Fail results
+just example rust actions
+
+# Cooperative cancellation
+just example rust actions-advanced
+```
+
+While `actions-advanced` is running, invoke its long task from another terminal:
+
+```bash
+zelos actions execute rust-advanced/long_task --params '{"seconds":30}'
+```
+
+Press Ctrl-C in the provider to cancel the in-flight action.
+
 ## Examples
+
+- **actions**: Defines and serves basic actions with ordered input schemas.
+  - Run: `just example rust actions`
+
+- **actions-advanced**: Uses `ActionFn` and demonstrates cancellation of in-flight async work.
+  - Run: `just example rust actions-advanced`
 
 - **hello-world**: Minimal publisher that connects to an agent and emits one `hello` event.
   - Run: `just example rust hello-world`

@@ -21,7 +21,10 @@ impl TraceSubscribeClient {
         address: String,
     ) -> Result<(Self, impl Future<Output = Result<()>>)> {
         // Connect to the gRPC server
-        let mut client = trace_subscribe_client::TraceSubscribeClient::connect(address).await?;
+        let channel = zelos_proto::channel::create_channel(address)?;
+        let mut client = trace_subscribe_client::TraceSubscribeClient::new(channel)
+            .max_decoding_message_size(zelos_proto::MAX_GRPC_MESSAGE_SIZE)
+            .max_encoding_message_size(zelos_proto::MAX_GRPC_MESSAGE_SIZE);
 
         // Initialize a channel for sending subscribe requests
         let (req_sender, req_receiver) = tokio::sync::mpsc::channel(1);

@@ -1,0 +1,83 @@
+syntax = "proto3";
+package zeloscloud.actions;
+
+enum ExecuteStatus {
+    PASS = 0;
+    FAIL = 1;
+    ERROR = 2;
+    DONE = 3; // Completed without pass/fail classification (default for plain return values)
+    // 4 reserved for IN_PROGRESS (streaming progress, future)
+}
+
+message ExecuteRequest {
+    string action = 1; // Name of the action to execute
+    string params = 2; // JSON string input parameters
+    optional uint32 timeout_ms = 3; // Timeout in milliseconds; absent means use server default
+}
+
+message ExecuteResponse {
+    string action = 1; // Name of the action executed
+    string result = 2; // JSON string result payload
+    optional ExecuteStatus status = 3; // Status of the execution; absent = DONE (backward compat with old SDKs)
+}
+
+message ListRequest {
+}
+
+message ListResponse {
+    repeated string actions = 1; // List of supported actions, e.g. ["action", "namespace/action"]
+}
+
+message StatusRequest {
+}
+
+message StatusResponse {
+    string json = 1; // arbitrary status JSON string of the service's status
+}
+
+message SchemaRequest {
+    string action = 1; // Name of the action to get the schema for
+    string current_values = 2; // Optional JSON string of current form data for dynamic choices
+}
+
+message SchemaResponse {
+    string action = 1; // Name of the action
+    string action_schema = 2; // Action Schema as JSON string
+    string ui_schema = 3; // UI Schema as JSON string
+    optional uint32 default_timeout_ms = 4; // Action-defined default timeout in milliseconds
+}
+
+message ActionsRequest {
+    uint64 sequence_number = 1;
+    string name = 2; // Name of the service
+    oneof msg {
+        ListResponse list = 3;
+        ExecuteResponse execute = 4;
+        StatusResponse status = 5;
+        SchemaResponse schema = 6;
+    }
+}
+
+message ActionsResponse {
+    uint64 sequence_number = 1;
+    oneof msg {
+        ListRequest list = 3;
+        ExecuteRequest execute = 4;
+        StatusRequest status = 5;
+        SchemaRequest schema = 6;
+    }
+}
+
+service Actions {
+    // Execute an action
+    rpc Execute(ExecuteRequest) returns (ExecuteResponse);
+
+    // List all available actions
+    rpc List(ListRequest) returns (ListResponse);
+
+    // Get the schema for an action
+    rpc Schema(SchemaRequest) returns (SchemaResponse);
+
+    // Register an actions client with the actions service proxy
+    rpc Actions(stream ActionsRequest) returns (stream ActionsResponse);
+}

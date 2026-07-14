@@ -95,9 +95,11 @@ impl TracePublishClient {
     ) -> Result<()> {
         // Attempt to connect to the grpc server
         tracing::info!("Trace client connecting to {}", &config.url);
-        let mut client = GrpcClient::connect(config.url.clone())
-            .await
+        let channel = zelos_proto::channel::create_channel(config.url.clone())
             .map_err(|e| anyhow!("Failed to connect to publish service: {}", e))?;
+        let mut client = GrpcClient::new(channel)
+            .max_decoding_message_size(zelos_proto::MAX_GRPC_MESSAGE_SIZE)
+            .max_encoding_message_size(zelos_proto::MAX_GRPC_MESSAGE_SIZE);
 
         // Subscribe to all messages and get it back as a stream
         let stream = router

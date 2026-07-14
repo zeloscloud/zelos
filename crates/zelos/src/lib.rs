@@ -3,10 +3,15 @@
 //! This crate provides a unified interface to the Zelos tracing system,
 //! re-exporting the main functionality from the individual crates.
 
+pub use zelos_actions as actions;
 pub use zelos_proto as proto;
 pub use zelos_trace as trace;
 pub use zelos_trace_grpc as trace_grpc;
 
 // Re-export commonly used types
+pub use zelos_actions::{
+    Action, ActionExecuteResult, ActionFn, ActionSchema, ActionsClient, ActionsError,
+    ActionsRegistry, ExecuteStatus, FieldBuilder,
+};
 pub use zelos_trace::{Store, TraceRouter, TraceSink, TraceSource};
 pub use zelos_trace_grpc::{publish, subscribe};

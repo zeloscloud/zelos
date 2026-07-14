@@ -27,7 +27,6 @@ import (
 
 	pb "github.com/zeloscloud/zelos/go/zeloscloud/trace"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 // ConnectionStatus represents the connection status
@@ -131,7 +130,7 @@ func (c *TracePublishClient) attemptConnection() error {
 		addr = addr[7:]
 	}
 
-	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(addr, DefaultDialOptions()...)
 	if err != nil {
 		return fmt.Errorf("failed to connect to %s: %w", addr, err)
 	}
