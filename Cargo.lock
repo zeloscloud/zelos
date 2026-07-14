@@ -3405,9 +3405,9 @@ checksum = "56199f7ddabf13fe5074ce809e7d3f42b42ae711800501b5b16ea82ad029c39d"
 
 [[package]]
 name = "slab"
-version = "0.4.10"
+version = "0.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04dc19736151f35336d325007ac991178d504a119863a2fcb3758cdb5e52c50d"
+checksum = "0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5"
 
 [[package]]
 name = "smallvec"
@@ -3443,9 +3443,9 @@ dependencies = [
 
 [[package]]
 name = "spin"
-version = "0.9.8"
+version = "0.9.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
+checksum = "3763264f6b73151db08c50ff20d7d8a0b8796e021cdea7ceedad07b80155fa0e"
 dependencies = [
  "lock_api",
 ]
@@ -4499,7 +4499,7 @@ dependencies = [
 
 [[package]]
 name = "zelos"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -4533,7 +4533,7 @@ dependencies = [
 
 [[package]]
 name = "zelos-proto"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "prost",
  "prost-build",
@@ -4567,7 +4567,7 @@ dependencies = [
 
 [[package]]
 name = "zelos-trace-grpc"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "anyhow",
  "chrono",

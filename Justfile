@@ -74,7 +74,7 @@ examples lang:
     set -euo pipefail
     if [ "{{lang}}" = "rust" ]; then
       echo "Rust examples:";
-      for f in examples/*.rs; do
+      for f in crates/zelos/examples/*.rs; do
         [ -f "$f" ] || continue
         base=$(basename "$f")
         name=${base%.rs}

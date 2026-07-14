@@ -1,6 +1,6 @@
 [package]
 name = "zelos"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2024"
 description = "A distributed tracing system"
 license = "MIT OR Apache-2.0"
@@ -30,71 +30,3 @@ tokio = { workspace = true, features = ["rt", "macros"] }
 tokio-util = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
-
-[[example]]
-name = "actions"
-path = "../../examples/actions.rs"
-
-[[example]]
-name = "actions-advanced"
-path = "../../examples/actions-advanced.rs"
-
-[[example]]
-name = "hello-world"
-path = "../../examples/hello-world.rs"
-
-[[example]]
-name = "all-types"
-path = "../../examples/all-types.rs"
-
-[[example]]
-name = "async-emit"
-path = "../../examples/async-emit.rs"
-
-[[example]]
-name = "async-schema"
-path = "../../examples/async-schema.rs"
-
-[[example]]
-name = "basic-stream"
-path = "../../examples/basic-stream.rs"
-
-[[example]]
-name = "binary-payload"
-path = "../../examples/binary-payload.rs"
-
-[[example]]
-name = "burst-stream"
-path = "../../examples/burst-stream.rs"
-
-[[example]]
-name = "custom-timestamps"
-path = "../../examples/custom-timestamps.rs"
-
-[[example]]
-name = "event-schema-and-values"
-path = "../../examples/event-schema-and-values.rs"
-
-[[example]]
-name = "grpc-publish-config"
-path = "../../examples/grpc-publish-config.rs"
-
-[[example]]
-name = "high-frequency"
-path = "../../examples/high-frequency.rs"
-
-[[example]]
-name = "multi-sources"
-path = "../../examples/multi-sources.rs"
-
-[[example]]
-name = "publish-status"
-path = "../../examples/publish-status.rs"
-
-[[example]]
-name = "sensor-array"
-path = "../../examples/sensor-array.rs"
-
-[[example]]
-name = "state-machine"
-path = "../../examples/state-machine.rs"
