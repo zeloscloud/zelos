@@ -11,7 +11,7 @@ members = [
 
 [workspace.dependencies]
 # Internal crates
-zelos-actions = { version = "0.0.1", path = "crates/zelos-actions" }
+zelos-actions = { version = "0.0.2", path = "crates/zelos-actions" }
 zelos-trace-types = { version = "0.0.1", path = "crates/zelos-trace-types" }
 zelos-proto = { version = "0.0.2", path = "crates/zelos-proto" }
 zelos-trace = { version = "0.0.1", path = "crates/zelos-trace" }
