@@ -6,7 +6,8 @@ pull request is merged.
 ## Verify
 
 ```bash
-cargo build --workspace --examples
+cargo build --workspace
+cargo build -p zelos --features examples --examples
 cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings
 

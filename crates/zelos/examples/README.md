@@ -9,11 +9,11 @@ Ensure a Zelos agent/app is running and reachable.
 Using Cargo directly from the repository root:
 ```bash
 # Build every Rust example
-cargo build -p zelos --examples
+cargo build -p zelos --features examples --examples
 
 # Build or run one example
-cargo build -p zelos --example actions
-cargo run -p zelos --example <example-name>
+cargo build -p zelos --features examples --example actions
+cargo run -p zelos --features examples --example <example-name>
 ```
 
 Or use the Justfile:
