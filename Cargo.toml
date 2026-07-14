@@ -13,10 +13,10 @@ members = [
 # Internal crates
 zelos-actions = { version = "0.0.1", path = "crates/zelos-actions" }
 zelos-trace-types = { version = "0.0.1", path = "crates/zelos-trace-types" }
-zelos-proto = { version = "0.0.1", path = "crates/zelos-proto" }
+zelos-proto = { version = "0.0.2", path = "crates/zelos-proto" }
 zelos-trace = { version = "0.0.1", path = "crates/zelos-trace" }
-zelos-trace-grpc = { version = "0.0.1", path = "crates/zelos-trace-grpc" }
-zelos = { version = "0.0.1", path = "crates/zelos" }
+zelos-trace-grpc = { version = "0.0.2", path = "crates/zelos-trace-grpc" }
+zelos = { version = "0.0.2", path = "crates/zelos" }
 
 # Third Party Dependencies
 anyhow = "1.0.86"

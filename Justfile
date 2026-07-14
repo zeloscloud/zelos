@@ -74,7 +74,7 @@ examples lang:
     set -euo pipefail
     if [ "{{lang}}" = "rust" ]; then
       echo "Rust examples:";
-      for f in examples/*.rs; do
+      for f in crates/zelos/examples/*.rs; do
         [ -f "$f" ] || continue
         base=$(basename "$f")
         name=${base%.rs}
@@ -101,7 +101,7 @@ examples lang:
 example lang name url="":
     @URL="{{url}}"; [ -n "$URL" ] || URL="{{default_url}}"; \
     if [ "{{lang}}" = "rust" ]; then \
-      ZELOS_URL="$URL" cargo run -p zelos --example {{name}}; \
+      ZELOS_URL="$URL" cargo run -p zelos --features examples --example {{name}}; \
     elif [ "{{lang}}" = "go" ]; then \
       ( cd go && ZELOS_URL="$URL" go run ./examples/{{name}} ); \
     elif [ "{{lang}}" = "python" ]; then \

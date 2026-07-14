@@ -1,6 +1,6 @@
 [package]
 name = "zelos"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2024"
 description = "A distributed tracing system"
 license = "MIT OR Apache-2.0"
@@ -20,81 +20,94 @@ zelos-proto = { workspace = true }
 zelos-trace = { workspace = true }
 zelos-trace-grpc = { workspace = true }
 zelos-trace-types = { workspace = true }
-anyhow = { workspace = true }
-rand = { version = "0.8" }
 
-# Dependencies for examples
-async-trait = { workspace = true }
-serde_json = { workspace = true }
-tokio = { workspace = true, features = ["rt", "macros"] }
-tokio-util = { workspace = true }
-tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
+# Optional dependencies used only by examples.
+anyhow = { workspace = true, optional = true }
+async-trait = { workspace = true, optional = true }
+rand = { version = "0.8", optional = true }
+serde_json = { workspace = true, optional = true }
+tokio = { workspace = true, optional = true, features = ["rt", "macros"] }
+tokio-util = { workspace = true, optional = true }
+tracing = { workspace = true, optional = true }
+tracing-subscriber = { workspace = true, optional = true }
+
+[features]
+default = []
+examples = [
+  "dep:anyhow",
+  "dep:async-trait",
+  "dep:rand",
+  "dep:serde_json",
+  "dep:tokio",
+  "dep:tokio-util",
+  "dep:tracing",
+  "dep:tracing-subscriber",
+]
 
 [[example]]
 name = "actions"
-path = "../../examples/actions.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "actions-advanced"
-path = "../../examples/actions-advanced.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "hello-world"
-path = "../../examples/hello-world.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "all-types"
-path = "../../examples/all-types.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "async-emit"
-path = "../../examples/async-emit.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "async-schema"
-path = "../../examples/async-schema.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "basic-stream"
-path = "../../examples/basic-stream.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "binary-payload"
-path = "../../examples/binary-payload.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "burst-stream"
-path = "../../examples/burst-stream.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "custom-timestamps"
-path = "../../examples/custom-timestamps.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "event-schema-and-values"
-path = "../../examples/event-schema-and-values.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "grpc-publish-config"
-path = "../../examples/grpc-publish-config.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "high-frequency"
-path = "../../examples/high-frequency.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "multi-sources"
-path = "../../examples/multi-sources.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "publish-status"
-path = "../../examples/publish-status.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "sensor-array"
-path = "../../examples/sensor-array.rs"
+required-features = ["examples"]
 
 [[example]]
 name = "state-machine"
-path = "../../examples/state-machine.rs"
+required-features = ["examples"]

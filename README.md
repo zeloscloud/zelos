@@ -10,7 +10,7 @@ A distributed tracing system built in Rust.
   - `zelos-trace` — Core trace model and logic
   - `zelos-trace-grpc` — gRPC publish/subscribe client
   - `zelos-trace-types` — Shared types
-- `examples/` — Rust examples
+- `crates/zelos/examples/` — Rust examples
 - `go/` — Go client, examples, generated stubs
 - `python/` — Python examples (zelos-sdk pypi package)
 
@@ -90,7 +90,7 @@ Actions let your program expose callable operations to a Zelos agent. Implement 
 `ActionsClient` to serve them to the agent. Once served, the actions show up on the
 agent namespaced by your service name (e.g. `rust-example/add`).
 
-See `examples/actions.rs` for a runnable example with two actions (`add` and
+See `crates/zelos/examples/actions.rs` for a runnable example with two actions (`add` and
 `check_threshold`):
 ```bash
 just example rust actions
