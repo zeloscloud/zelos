@@ -3,6 +3,8 @@
 The data platform for hardware systems. Rust, Go and Python SDKs for streaming
 your own data in over gRPC.
 
+![Battery pack signals on a Zelos plot panel](docs/plot-overview.png)
+
 Docs: https://docs.zeloscloud.io
 Site: https://zeloscloud.io
 
