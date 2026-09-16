@@ -1,6 +1,10 @@
 # Zelos
 
-A distributed tracing system built in Rust.
+The data platform for hardware systems. Rust, Go and Python SDKs for streaming
+your own data in over gRPC.
+
+Docs: https://docs.zeloscloud.io
+Site: https://zeloscloud.io
 
 ## Repository layout
 - `crates/`
