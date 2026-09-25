@@ -21,6 +21,54 @@ Site: https://zeloscloud.io
 - `python/` — Python examples (zelos-sdk pypi package)
 
 ## Quick start
+
+The app or the agent has to be running first. It listens on localhost:2300.
+Download the app: https://zeloscloud.io/download
+Then install the Python SDK and save this as `stream.py`:
+
+```bash
+pip install zelos-sdk
+```
+
+```python
+import math
+import time
+import zelos_sdk
+
+# Connect to local agent (auto-reconnects on failure)
+zelos_sdk.init()
+
+# Create a source for our power data
+source = zelos_sdk.TraceSource("power_monitor")
+
+# Stream at 1 kHz
+print("Streaming power data... Press Ctrl+C to stop")
+start_time = time.time()
+
+while True:
+    t = time.time() - start_time
+
+    # Generate test signals
+    voltage = 12.0 + 0.5 * math.sin(2 * math.pi * 50 * t)
+    current = 2.0 + 0.2 * math.sin(2 * math.pi * 50 * t + math.pi / 4)
+
+    # Log as a single event (all fields get same timestamp)
+    source.log("measurements", {
+        "voltage": voltage,
+        "current": current,
+        "power": voltage * current,
+    })
+
+    time.sleep(0.001)  # 1ms = 1kHz
+```
+
+Run `python stream.py`. Open the app, go to Signals, and look for `power_monitor/measurements.voltage`, `power_monitor/measurements.current`, and `power_monitor/measurements.power`.
+
+Rust: `cargo add zelos`. Go: `go get github.com/zeloscloud/zelos/go@latest`. The same page has both: https://docs.zeloscloud.io/latest/sdk/quickstart/
+
+To build this repository, use the Nix dev shell below.
+
+## Building this repository
 Recommended: use the Nix dev shell. You can also run without Nix if you already have the toolchains.
 
 ### Nix + direnv
