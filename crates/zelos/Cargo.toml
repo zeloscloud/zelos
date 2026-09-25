@@ -2,9 +2,11 @@
 name = "zelos"
 version = "0.0.2"
 edition = "2024"
-description = "A distributed tracing system"
+description = "Rust SDK for Zelos. Stream hardware data into the Zelos app over gRPC."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/zeloscloud/zelos"
+homepage = "https://docs.zeloscloud.io/latest/sdk/quickstart/"
+documentation = "https://docs.rs/zelos"
 keywords = [
   "tracing",
   "distributed",

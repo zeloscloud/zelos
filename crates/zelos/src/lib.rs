@@ -1,4 +1,4 @@
-//! Zelos - A distributed tracing system
+//! Rust SDK for Zelos. Stream hardware data into the Zelos app over gRPC.
 //!
 //! This crate provides a unified interface to the Zelos tracing system,
 //! re-exporting the main functionality from the individual crates.
