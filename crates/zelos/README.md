@@ -8,7 +8,7 @@ The SDK publishes to a running Zelos app or agent. Get the app at <https://zelos
 
 ```bash
 cargo add zelos tokio-util
-cargo add tokio --features full
+cargo add tokio --features rt-multi-thread,macros,time
 ```
 
 Requires Rust 1.85 or later.
