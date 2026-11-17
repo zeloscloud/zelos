@@ -1,6 +1,6 @@
 [package]
 name = "zelos"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2024"
 description = "Rust SDK for Zelos. Stream hardware data into the Zelos app over gRPC."
 license = "MIT OR Apache-2.0"

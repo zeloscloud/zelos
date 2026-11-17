@@ -19,7 +19,8 @@ go test -race ./...
 
 ## Publish Rust crates
 
-Publish in dependency order. Wait for each crate version to appear on crates.io
+Publish only the crates whose version the release-preparation pull request
+bumped, in dependency order. Wait for each crate version to appear on crates.io
 before verifying or publishing the next dependent crate.
 
 ```bash
@@ -27,7 +28,7 @@ before verifying or publishing the next dependent crate.
 cargo publish -p zelos-proto --dry-run
 cargo publish -p zelos-proto
 
-# 2. Crates that depend on zelos-proto 0.0.2
+# 2. Crates that depend on zelos-proto
 cargo publish -p zelos-trace-grpc --dry-run
 cargo publish -p zelos-trace-grpc
 
@@ -48,9 +49,9 @@ until the preceding version is published and visible in the crates.io index.
 Tag the merge commit only after all Rust crates publish successfully:
 
 ```bash
-git tag -a v0.0.2 -m "Zelos SDK v0.0.2"
-git tag -a go/v0.0.2 -m "Go SDK v0.0.2"
-git push origin v0.0.2 go/v0.0.2
+git tag -a v0.0.3 -m "Zelos SDK v0.0.3"
+git push origin v0.0.3
 ```
 
-The Go module is released by the `go/v0.0.2` tag; there is no separate upload.
+The Go module is released by its own `go/vX.Y.Z` tag; there is no separate
+upload. Cut one only when `go/` changed since the last `go/` tag.
