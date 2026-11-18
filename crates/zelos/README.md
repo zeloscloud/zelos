@@ -43,7 +43,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_f64_field("current", Some("A".to_string()))
         .build()?;
 
-    // Stream at up to 1 kHz
     let start = Instant::now();
     loop {
         let t = start.elapsed().as_secs_f64();
